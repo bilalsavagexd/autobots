@@ -1,19 +1,19 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
-HexStrike AI MCP Client - Enhanced AI Agent Communication Interface
+Autobots AI MCP Client - Enhanced AI Agent Communication Interface
 
 Enhanced with AI-Powered Intelligence & Automation
-🚀 Bug Bounty | CTF | Red Team | Security Research
+ðŸš€ Bug Bounty | CTF | Red Team | Security Research
 
 RECENT ENHANCEMENTS (v6.0):
-✅ Complete color consistency with reddish hacker theme
-✅ Enhanced visual output with consistent styling
-✅ Improved error handling and recovery systems
-✅ FastMCP integration for seamless AI communication
-✅ 100+ security tools with intelligent parameter optimization
-✅ Advanced logging with colored output and emojis
+âœ… Complete color consistency with reddish hacker theme
+âœ… Enhanced visual output with consistent styling
+âœ… Improved error handling and recovery systems
+âœ… FastMCP integration for seamless AI communication
+âœ… 100+ security tools with intelligent parameter optimization
+âœ… Advanced logging with colored output and emojis
 
-Architecture: MCP Client for AI agent communication with HexStrike server
+Architecture: MCP Client for AI agent communication with Autobots server
 Framework: FastMCP integration for tool orchestration
 """
 
@@ -106,15 +106,15 @@ class ColoredFormatter(logging.Formatter):
     }
 
     EMOJIS = {
-        'DEBUG': '🔍',
-        'INFO': '✅',
-        'WARNING': '⚠️',
-        'ERROR': '❌',
-        'CRITICAL': '🔥'
+        'DEBUG': 'ðŸ”',
+        'INFO': 'âœ…',
+        'WARNING': 'âš ï¸',
+        'ERROR': 'âŒ',
+        'CRITICAL': 'ðŸ”¥'
     }
 
     def format(self, record):
-        emoji = self.EMOJIS.get(record.levelname, '📝')
+        emoji = self.EMOJIS.get(record.levelname, 'ðŸ“')
         color = self.COLORS.get(record.levelname, HexStrikeColors.BRIGHT_WHITE)
 
         # Add color and emoji to the message
@@ -124,7 +124,7 @@ class ColoredFormatter(logging.Formatter):
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
-    format="[🔥 HexStrike MCP] %(asctime)s [%(levelname)s] %(message)s",
+    format="[ðŸ”¥ Autobots MCP] %(asctime)s [%(levelname)s] %(message)s",
     handlers=[
         logging.StreamHandler(sys.stderr)
     ]
@@ -133,26 +133,26 @@ logging.basicConfig(
 # Apply colored formatter
 for handler in logging.getLogger().handlers:
     handler.setFormatter(ColoredFormatter(
-        "[🔥 HexStrike MCP] %(asctime)s [%(levelname)s] %(message)s",
+        "[ðŸ”¥ Autobots MCP] %(asctime)s [%(levelname)s] %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S"
     ))
 
 logger = logging.getLogger(__name__)
 
 # Default configuration
-DEFAULT_HEXSTRIKE_SERVER = "http://127.0.0.1:8888"  # Default HexStrike server URL
+DEFAULT_HEXSTRIKE_SERVER = "http://127.0.0.1:8888"  # Default Autobots server URL
 DEFAULT_REQUEST_TIMEOUT = 300  # 5 minutes default timeout for API requests
 MAX_RETRIES = 3  # Maximum number of retries for connection attempts
 
 class HexStrikeClient:
-    """Enhanced client for communicating with the HexStrike AI API Server"""
+    """Enhanced client for communicating with the Autobots AI API Server"""
 
     def __init__(self, server_url: str, timeout: int = DEFAULT_REQUEST_TIMEOUT):
         """
-        Initialize the HexStrike AI Client
+        Initialize the Autobots AI Client
 
         Args:
-            server_url: URL of the HexStrike AI API Server
+            server_url: URL of the Autobots AI API Server
             timeout: Request timeout in seconds
         """
         self.server_url = server_url.rstrip("/")
@@ -163,29 +163,29 @@ class HexStrikeClient:
         connected = False
         for i in range(MAX_RETRIES):
             try:
-                logger.info(f"🔗 Attempting to connect to HexStrike AI API at {server_url} (attempt {i+1}/{MAX_RETRIES})")
+                logger.info(f"ðŸ”— Attempting to connect to Autobots AI API at {server_url} (attempt {i+1}/{MAX_RETRIES})")
                 # First try a direct connection test before using the health endpoint
                 try:
                     test_response = self.session.get(f"{self.server_url}/health", timeout=5)
                     test_response.raise_for_status()
                     health_check = test_response.json()
                     connected = True
-                    logger.info(f"🎯 Successfully connected to HexStrike AI API Server at {server_url}")
-                    logger.info(f"🏥 Server health status: {health_check.get('status', 'unknown')}")
-                    logger.info(f"📊 Server version: {health_check.get('version', 'unknown')}")
+                    logger.info(f"ðŸŽ¯ Successfully connected to Autobots AI API Server at {server_url}")
+                    logger.info(f"ðŸ¥ Server health status: {health_check.get('status', 'unknown')}")
+                    logger.info(f"ðŸ“Š Server version: {health_check.get('version', 'unknown')}")
                     break
                 except requests.exceptions.ConnectionError:
-                    logger.warning(f"🔌 Connection refused to {server_url}. Make sure the HexStrike AI server is running.")
+                    logger.warning(f"ðŸ”Œ Connection refused to {server_url}. Make sure the Autobots AI server is running.")
                     time.sleep(2)  # Wait before retrying
                 except Exception as e:
-                    logger.warning(f"⚠️  Connection test failed: {str(e)}")
+                    logger.warning(f"âš ï¸  Connection test failed: {str(e)}")
                     time.sleep(2)  # Wait before retrying
             except Exception as e:
-                logger.warning(f"❌ Connection attempt {i+1} failed: {str(e)}")
+                logger.warning(f"âŒ Connection attempt {i+1} failed: {str(e)}")
                 time.sleep(2)  # Wait before retrying
 
         if not connected:
-            error_msg = f"Failed to establish connection to HexStrike AI API Server at {server_url} after {MAX_RETRIES} attempts"
+            error_msg = f"Failed to establish connection to Autobots AI API Server at {server_url} after {MAX_RETRIES} attempts"
             logger.error(error_msg)
             # We'll continue anyway to allow the MCP server to start, but tools will likely fail
 
@@ -206,15 +206,15 @@ class HexStrikeClient:
         url = f"{self.server_url}/{endpoint}"
 
         try:
-            logger.debug(f"📡 GET {url} with params: {params}")
+            logger.debug(f"ðŸ“¡ GET {url} with params: {params}")
             response = self.session.get(url, params=params, timeout=self.timeout)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            logger.error(f"🚫 Request failed: {str(e)}")
+            logger.error(f"ðŸš« Request failed: {str(e)}")
             return {"error": f"Request failed: {str(e)}", "success": False}
         except Exception as e:
-            logger.error(f"💥 Unexpected error: {str(e)}")
+            logger.error(f"ðŸ’¥ Unexpected error: {str(e)}")
             return {"error": f"Unexpected error: {str(e)}", "success": False}
 
     def safe_post(self, endpoint: str, json_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -231,20 +231,20 @@ class HexStrikeClient:
         url = f"{self.server_url}/{endpoint}"
 
         try:
-            logger.debug(f"📡 POST {url} with data: {json_data}")
+            logger.debug(f"ðŸ“¡ POST {url} with data: {json_data}")
             response = self.session.post(url, json=json_data, timeout=self.timeout)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            logger.error(f"🚫 Request failed: {str(e)}")
+            logger.error(f"ðŸš« Request failed: {str(e)}")
             return {"error": f"Request failed: {str(e)}", "success": False}
         except Exception as e:
-            logger.error(f"💥 Unexpected error: {str(e)}")
+            logger.error(f"ðŸ’¥ Unexpected error: {str(e)}")
             return {"error": f"Unexpected error: {str(e)}", "success": False}
 
     def execute_command(self, command: str, use_cache: bool = True) -> Dict[str, Any]:
         """
-        Execute a generic command on the HexStrike server
+        Execute a generic command on the Autobots server
 
         Args:
             command: Command to execute
@@ -257,24 +257,24 @@ class HexStrikeClient:
 
     def check_health(self) -> Dict[str, Any]:
         """
-        Check the health of the HexStrike AI API Server
+        Check the health of the Autobots AI API Server
 
         Returns:
             Health status information
         """
         return self.safe_get("health")
 
-def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
+def setup_mcp_server(autobots_client: HexStrikeClient) -> FastMCP:
     """
     Set up the MCP server with all enhanced tool functions
 
     Args:
-        hexstrike_client: Initialized HexStrikeClient
+        autobots_client: Initialized HexStrikeClient
 
     Returns:
         Configured FastMCP instance
     """
-    mcp = FastMCP("hexstrike-ai-mcp")
+    mcp = FastMCP("autobots-ai-mcp")
 
     # ============================================================================
     # CORE NETWORK SCANNING TOOLS
@@ -300,14 +300,14 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "ports": ports,
             "additional_args": additional_args
         }
-        logger.info(f"{HexStrikeColors.FIRE_RED}🔍 Initiating Nmap scan: {target}{HexStrikeColors.RESET}")
+        logger.info(f"{HexStrikeColors.FIRE_RED}ðŸ” Initiating Nmap scan: {target}{HexStrikeColors.RESET}")
 
         # Use enhanced error handling by default
         data["use_recovery"] = True
-        result = hexstrike_client.safe_post("api/tools/nmap", data)
+        result = autobots_client.safe_post("api/tools/nmap", data)
 
         if result.get("success"):
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ Nmap scan completed successfully for {target}{HexStrikeColors.RESET}")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… Nmap scan completed successfully for {target}{HexStrikeColors.RESET}")
 
             # Check for recovery information
             if result.get("recovery_info", {}).get("recovery_applied"):
@@ -315,7 +315,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                 attempts = recovery_info.get("attempts_made", 1)
                 logger.info(f"{HexStrikeColors.HIGHLIGHT_YELLOW} Recovery applied: {attempts} attempts made {HexStrikeColors.RESET}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ Nmap scan failed for {target}{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ Nmap scan failed for {target}{HexStrikeColors.RESET}")
 
             # Check for human escalation
             if result.get("human_escalation"):
@@ -343,14 +343,14 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "wordlist": wordlist,
             "additional_args": additional_args
         }
-        logger.info(f"{HexStrikeColors.CRIMSON}📁 Starting Gobuster {mode} scan: {url}{HexStrikeColors.RESET}")
+        logger.info(f"{HexStrikeColors.CRIMSON}ðŸ“ Starting Gobuster {mode} scan: {url}{HexStrikeColors.RESET}")
 
         # Use enhanced error handling by default
         data["use_recovery"] = True
-        result = hexstrike_client.safe_post("api/tools/gobuster", data)
+        result = autobots_client.safe_post("api/tools/gobuster", data)
 
         if result.get("success"):
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ Gobuster scan completed for {url}{HexStrikeColors.RESET}")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… Gobuster scan completed for {url}{HexStrikeColors.RESET}")
 
             # Check for recovery information
             if result.get("recovery_info", {}).get("recovery_applied"):
@@ -358,7 +358,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                 attempts = recovery_info.get("attempts_made", 1)
                 logger.info(f"{HexStrikeColors.HIGHLIGHT_YELLOW} Recovery applied: {attempts} attempts made {HexStrikeColors.RESET}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ Gobuster scan failed for {url}{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ Gobuster scan failed for {url}{HexStrikeColors.RESET}")
 
             # Check for alternative tool suggestion
             if result.get("alternative_tool_suggested"):
@@ -389,14 +389,14 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "template": template,
             "additional_args": additional_args
         }
-        logger.info(f"{HexStrikeColors.BLOOD_RED}🔬 Starting Nuclei vulnerability scan: {target}{HexStrikeColors.RESET}")
+        logger.info(f"{HexStrikeColors.BLOOD_RED}ðŸ”¬ Starting Nuclei vulnerability scan: {target}{HexStrikeColors.RESET}")
 
         # Use enhanced error handling by default
         data["use_recovery"] = True
-        result = hexstrike_client.safe_post("api/tools/nuclei", data)
+        result = autobots_client.safe_post("api/tools/nuclei", data)
 
         if result.get("success"):
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ Nuclei scan completed for {target}{HexStrikeColors.RESET}")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… Nuclei scan completed for {target}{HexStrikeColors.RESET}")
 
             # Enhanced vulnerability reporting
             if result.get("stdout") and "CRITICAL" in result["stdout"]:
@@ -410,7 +410,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                 attempts = recovery_info.get("attempts_made", 1)
                 logger.info(f"{HexStrikeColors.HIGHLIGHT_YELLOW} Recovery applied: {attempts} attempts made {HexStrikeColors.RESET}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ Nuclei scan failed for {target}{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ Nuclei scan failed for {target}{HexStrikeColors.RESET}")
 
         return result
 
@@ -444,12 +444,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_format": output_format,
             "additional_args": additional_args
         }
-        logger.info(f"☁️  Starting Prowler {provider} security assessment")
-        result = hexstrike_client.safe_post("api/tools/prowler", data)
+        logger.info(f"â˜ï¸  Starting Prowler {provider} security assessment")
+        result = autobots_client.safe_post("api/tools/prowler", data)
         if result.get("success"):
-            logger.info(f"✅ Prowler assessment completed")
+            logger.info(f"âœ… Prowler assessment completed")
         else:
-            logger.error(f"❌ Prowler assessment failed")
+            logger.error(f"âŒ Prowler assessment failed")
         return result
 
     @mcp.tool()
@@ -476,12 +476,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Trivy {scan_type} scan: {target}")
-        result = hexstrike_client.safe_post("api/tools/trivy", data)
+        logger.info(f"ðŸ” Starting Trivy {scan_type} scan: {target}")
+        result = autobots_client.safe_post("api/tools/trivy", data)
         if result.get("success"):
-            logger.info(f"✅ Trivy scan completed for {target}")
+            logger.info(f"âœ… Trivy scan completed for {target}")
         else:
-            logger.error(f"❌ Trivy scan failed for {target}")
+            logger.error(f"âŒ Trivy scan failed for {target}")
         return result
 
     # ============================================================================
@@ -514,12 +514,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "exceptions": exceptions,
             "additional_args": additional_args
         }
-        logger.info(f"☁️  Starting Scout Suite {provider} assessment")
-        result = hexstrike_client.safe_post("api/tools/scout-suite", data)
+        logger.info(f"â˜ï¸  Starting Scout Suite {provider} assessment")
+        result = autobots_client.safe_post("api/tools/scout-suite", data)
         if result.get("success"):
-            logger.info(f"✅ Scout Suite assessment completed")
+            logger.info(f"âœ… Scout Suite assessment completed")
         else:
-            logger.error(f"❌ Scout Suite assessment failed")
+            logger.error(f"âŒ Scout Suite assessment failed")
         return result
 
     @mcp.tool()
@@ -543,16 +543,16 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "config": config,
             "additional_args": additional_args
         }
-        logger.info(f"☁️  Starting CloudMapper {action}")
-        result = hexstrike_client.safe_post("api/tools/cloudmapper", data)
+        logger.info(f"â˜ï¸  Starting CloudMapper {action}")
+        result = autobots_client.safe_post("api/tools/cloudmapper", data)
         if result.get("success"):
-            logger.info(f"✅ CloudMapper {action} completed")
+            logger.info(f"âœ… CloudMapper {action} completed")
         else:
-            logger.error(f"❌ CloudMapper {action} failed")
+            logger.error(f"âŒ CloudMapper {action} failed")
         return result
 
     @mcp.tool()
-    def pacu_exploitation(session_name: str = "hexstrike_session", modules: str = "",
+    def pacu_exploitation(session_name: str = "autobots_session", modules: str = "",
                          data_services: str = "", regions: str = "",
                          additional_args: str = "") -> Dict[str, Any]:
         """
@@ -575,12 +575,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "regions": regions,
             "additional_args": additional_args
         }
-        logger.info(f"☁️  Starting Pacu AWS exploitation")
-        result = hexstrike_client.safe_post("api/tools/pacu", data)
+        logger.info(f"â˜ï¸  Starting Pacu AWS exploitation")
+        result = autobots_client.safe_post("api/tools/pacu", data)
         if result.get("success"):
-            logger.info(f"✅ Pacu exploitation completed")
+            logger.info(f"âœ… Pacu exploitation completed")
         else:
-            logger.error(f"❌ Pacu exploitation failed")
+            logger.error(f"âŒ Pacu exploitation failed")
         return result
 
     @mcp.tool()
@@ -611,12 +611,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "report": report,
             "additional_args": additional_args
         }
-        logger.info(f"☁️  Starting kube-hunter Kubernetes scan")
-        result = hexstrike_client.safe_post("api/tools/kube-hunter", data)
+        logger.info(f"â˜ï¸  Starting kube-hunter Kubernetes scan")
+        result = autobots_client.safe_post("api/tools/kube-hunter", data)
         if result.get("success"):
-            logger.info(f"✅ kube-hunter scan completed")
+            logger.info(f"âœ… kube-hunter scan completed")
         else:
-            logger.error(f"❌ kube-hunter scan failed")
+            logger.error(f"âŒ kube-hunter scan failed")
         return result
 
     @mcp.tool()
@@ -642,12 +642,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_format": output_format,
             "additional_args": additional_args
         }
-        logger.info(f"☁️  Starting kube-bench CIS benchmark")
-        result = hexstrike_client.safe_post("api/tools/kube-bench", data)
+        logger.info(f"â˜ï¸  Starting kube-bench CIS benchmark")
+        result = autobots_client.safe_post("api/tools/kube-bench", data)
         if result.get("success"):
-            logger.info(f"✅ kube-bench benchmark completed")
+            logger.info(f"âœ… kube-bench benchmark completed")
         else:
-            logger.error(f"❌ kube-bench benchmark failed")
+            logger.error(f"âŒ kube-bench benchmark failed")
         return result
 
     @mcp.tool()
@@ -672,12 +672,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info(f"🐳 Starting Docker Bench Security assessment")
-        result = hexstrike_client.safe_post("api/tools/docker-bench-security", data)
+        logger.info(f"ðŸ³ Starting Docker Bench Security assessment")
+        result = autobots_client.safe_post("api/tools/docker-bench-security", data)
         if result.get("success"):
-            logger.info(f"✅ Docker Bench Security completed")
+            logger.info(f"âœ… Docker Bench Security completed")
         else:
-            logger.error(f"❌ Docker Bench Security failed")
+            logger.error(f"âŒ Docker Bench Security failed")
         return result
 
     @mcp.tool()
@@ -701,12 +701,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_format": output_format,
             "additional_args": additional_args
         }
-        logger.info(f"🐳 Starting Clair vulnerability scan: {image}")
-        result = hexstrike_client.safe_post("api/tools/clair", data)
+        logger.info(f"ðŸ³ Starting Clair vulnerability scan: {image}")
+        result = autobots_client.safe_post("api/tools/clair", data)
         if result.get("success"):
-            logger.info(f"✅ Clair scan completed for {image}")
+            logger.info(f"âœ… Clair scan completed for {image}")
         else:
-            logger.error(f"❌ Clair scan failed for {image}")
+            logger.error(f"âŒ Clair scan failed for {image}")
         return result
 
     @mcp.tool()
@@ -733,12 +733,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "duration": duration,
             "additional_args": additional_args
         }
-        logger.info(f"🛡️  Starting Falco runtime monitoring for {duration}s")
-        result = hexstrike_client.safe_post("api/tools/falco", data)
+        logger.info(f"ðŸ›¡ï¸  Starting Falco runtime monitoring for {duration}s")
+        result = autobots_client.safe_post("api/tools/falco", data)
         if result.get("success"):
-            logger.info(f"✅ Falco monitoring completed")
+            logger.info(f"âœ… Falco monitoring completed")
         else:
-            logger.error(f"❌ Falco monitoring failed")
+            logger.error(f"âŒ Falco monitoring failed")
         return result
 
     @mcp.tool()
@@ -767,12 +767,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_format": output_format,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Checkov IaC scan: {directory}")
-        result = hexstrike_client.safe_post("api/tools/checkov", data)
+        logger.info(f"ðŸ” Starting Checkov IaC scan: {directory}")
+        result = autobots_client.safe_post("api/tools/checkov", data)
         if result.get("success"):
-            logger.info(f"✅ Checkov scan completed")
+            logger.info(f"âœ… Checkov scan completed")
         else:
-            logger.error(f"❌ Checkov scan failed")
+            logger.error(f"âŒ Checkov scan failed")
         return result
 
     @mcp.tool()
@@ -801,12 +801,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "severity": severity,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Terrascan IaC scan: {iac_dir}")
-        result = hexstrike_client.safe_post("api/tools/terrascan", data)
+        logger.info(f"ðŸ” Starting Terrascan IaC scan: {iac_dir}")
+        result = autobots_client.safe_post("api/tools/terrascan", data)
         if result.get("success"):
-            logger.info(f"✅ Terrascan scan completed")
+            logger.info(f"âœ… Terrascan scan completed")
         else:
-            logger.error(f"❌ Terrascan scan failed")
+            logger.error(f"âŒ Terrascan scan failed")
         return result
 
     # ============================================================================
@@ -816,7 +816,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
     @mcp.tool()
     def create_file(filename: str, content: str, binary: bool = False) -> Dict[str, Any]:
         """
-        Create a file with specified content on the HexStrike server.
+        Create a file with specified content on the Autobots server.
 
         Args:
             filename: Name of the file to create
@@ -831,18 +831,18 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "content": content,
             "binary": binary
         }
-        logger.info(f"📄 Creating file: {filename}")
-        result = hexstrike_client.safe_post("api/files/create", data)
+        logger.info(f"ðŸ“„ Creating file: {filename}")
+        result = autobots_client.safe_post("api/files/create", data)
         if result.get("success"):
-            logger.info(f"✅ File created successfully: {filename}")
+            logger.info(f"âœ… File created successfully: {filename}")
         else:
-            logger.error(f"❌ Failed to create file: {filename}")
+            logger.error(f"âŒ Failed to create file: {filename}")
         return result
 
     @mcp.tool()
     def modify_file(filename: str, content: str, append: bool = False) -> Dict[str, Any]:
         """
-        Modify an existing file on the HexStrike server.
+        Modify an existing file on the Autobots server.
 
         Args:
             filename: Name of the file to modify
@@ -857,18 +857,18 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "content": content,
             "append": append
         }
-        logger.info(f"✏️  Modifying file: {filename}")
-        result = hexstrike_client.safe_post("api/files/modify", data)
+        logger.info(f"âœï¸  Modifying file: {filename}")
+        result = autobots_client.safe_post("api/files/modify", data)
         if result.get("success"):
-            logger.info(f"✅ File modified successfully: {filename}")
+            logger.info(f"âœ… File modified successfully: {filename}")
         else:
-            logger.error(f"❌ Failed to modify file: {filename}")
+            logger.error(f"âŒ Failed to modify file: {filename}")
         return result
 
     @mcp.tool()
     def delete_file(filename: str) -> Dict[str, Any]:
         """
-        Delete a file or directory on the HexStrike server.
+        Delete a file or directory on the Autobots server.
 
         Args:
             filename: Name of the file or directory to delete
@@ -879,18 +879,18 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         data = {
             "filename": filename
         }
-        logger.info(f"🗑️  Deleting file: {filename}")
-        result = hexstrike_client.safe_post("api/files/delete", data)
+        logger.info(f"ðŸ—‘ï¸  Deleting file: {filename}")
+        result = autobots_client.safe_post("api/files/delete", data)
         if result.get("success"):
-            logger.info(f"✅ File deleted successfully: {filename}")
+            logger.info(f"âœ… File deleted successfully: {filename}")
         else:
-            logger.error(f"❌ Failed to delete file: {filename}")
+            logger.error(f"âŒ Failed to delete file: {filename}")
         return result
 
     @mcp.tool()
     def list_files(directory: str = ".") -> Dict[str, Any]:
         """
-        List files in a directory on the HexStrike server.
+        List files in a directory on the Autobots server.
 
         Args:
             directory: Directory to list (relative to server's base directory)
@@ -898,13 +898,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Directory listing results
         """
-        logger.info(f"📂 Listing files in directory: {directory}")
-        result = hexstrike_client.safe_get("api/files/list", {"directory": directory})
+        logger.info(f"ðŸ“‚ Listing files in directory: {directory}")
+        result = autobots_client.safe_get("api/files/list", {"directory": directory})
         if result.get("success"):
             file_count = len(result.get("files", []))
-            logger.info(f"✅ Listed {file_count} files in {directory}")
+            logger.info(f"âœ… Listed {file_count} files in {directory}")
         else:
-            logger.error(f"❌ Failed to list files in {directory}")
+            logger.error(f"âŒ Failed to list files in {directory}")
         return result
 
     @mcp.tool()
@@ -929,12 +929,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         if filename:
             data["filename"] = filename
 
-        logger.info(f"🎯 Generating {payload_type} payload: {size} bytes")
-        result = hexstrike_client.safe_post("api/payloads/generate", data)
+        logger.info(f"ðŸŽ¯ Generating {payload_type} payload: {size} bytes")
+        result = autobots_client.safe_post("api/payloads/generate", data)
         if result.get("success"):
-            logger.info(f"✅ Payload generated successfully")
+            logger.info(f"âœ… Payload generated successfully")
         else:
-            logger.error(f"❌ Failed to generate payload")
+            logger.error(f"âŒ Failed to generate payload")
         return result
 
     # ============================================================================
@@ -944,7 +944,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
     @mcp.tool()
     def install_python_package(package: str, env_name: str = "default") -> Dict[str, Any]:
         """
-        Install a Python package in a virtual environment on the HexStrike server.
+        Install a Python package in a virtual environment on the Autobots server.
 
         Args:
             package: Name of the Python package to install
@@ -957,18 +957,18 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "package": package,
             "env_name": env_name
         }
-        logger.info(f"📦 Installing Python package: {package} in env {env_name}")
-        result = hexstrike_client.safe_post("api/python/install", data)
+        logger.info(f"ðŸ“¦ Installing Python package: {package} in env {env_name}")
+        result = autobots_client.safe_post("api/python/install", data)
         if result.get("success"):
-            logger.info(f"✅ Package {package} installed successfully")
+            logger.info(f"âœ… Package {package} installed successfully")
         else:
-            logger.error(f"❌ Failed to install package {package}")
+            logger.error(f"âŒ Failed to install package {package}")
         return result
 
     @mcp.tool()
     def execute_python_script(script: str, env_name: str = "default", filename: str = "") -> Dict[str, Any]:
         """
-        Execute a Python script in a virtual environment on the HexStrike server.
+        Execute a Python script in a virtual environment on the Autobots server.
 
         Args:
             script: Python script content to execute
@@ -985,12 +985,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         if filename:
             data["filename"] = filename
 
-        logger.info(f"🐍 Executing Python script in env {env_name}")
-        result = hexstrike_client.safe_post("api/python/execute", data)
+        logger.info(f"ðŸ Executing Python script in env {env_name}")
+        result = autobots_client.safe_post("api/python/execute", data)
         if result.get("success"):
-            logger.info(f"✅ Python script executed successfully")
+            logger.info(f"âœ… Python script executed successfully")
         else:
-            logger.error(f"❌ Python script execution failed")
+            logger.error(f"âŒ Python script execution failed")
         return result
 
     # ============================================================================
@@ -1015,12 +1015,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "wordlist": wordlist,
             "additional_args": additional_args
         }
-        logger.info(f"📁 Starting Dirb scan: {url}")
-        result = hexstrike_client.safe_post("api/tools/dirb", data)
+        logger.info(f"ðŸ“ Starting Dirb scan: {url}")
+        result = autobots_client.safe_post("api/tools/dirb", data)
         if result.get("success"):
-            logger.info(f"✅ Dirb scan completed for {url}")
+            logger.info(f"âœ… Dirb scan completed for {url}")
         else:
-            logger.error(f"❌ Dirb scan failed for {url}")
+            logger.error(f"âŒ Dirb scan failed for {url}")
         return result
 
     @mcp.tool()
@@ -1039,12 +1039,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "target": target,
             "additional_args": additional_args
         }
-        logger.info(f"🔬 Starting Nikto scan: {target}")
-        result = hexstrike_client.safe_post("api/tools/nikto", data)
+        logger.info(f"ðŸ”¬ Starting Nikto scan: {target}")
+        result = autobots_client.safe_post("api/tools/nikto", data)
         if result.get("success"):
-            logger.info(f"✅ Nikto scan completed for {target}")
+            logger.info(f"âœ… Nikto scan completed for {target}")
         else:
-            logger.error(f"❌ Nikto scan failed for {target}")
+            logger.error(f"âŒ Nikto scan failed for {target}")
         return result
 
     @mcp.tool()
@@ -1065,12 +1065,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "data": data,
             "additional_args": additional_args
         }
-        logger.info(f"💉 Starting SQLMap scan: {url}")
-        result = hexstrike_client.safe_post("api/tools/sqlmap", data_payload)
+        logger.info(f"ðŸ’‰ Starting SQLMap scan: {url}")
+        result = autobots_client.safe_post("api/tools/sqlmap", data_payload)
         if result.get("success"):
-            logger.info(f"✅ SQLMap scan completed for {url}")
+            logger.info(f"âœ… SQLMap scan completed for {url}")
         else:
-            logger.error(f"❌ SQLMap scan failed for {url}")
+            logger.error(f"âŒ SQLMap scan failed for {url}")
         return result
 
     @mcp.tool()
@@ -1089,12 +1089,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "module": module,
             "options": options
         }
-        logger.info(f"🚀 Starting Metasploit module: {module}")
-        result = hexstrike_client.safe_post("api/tools/metasploit", data)
+        logger.info(f"ðŸš€ Starting Metasploit module: {module}")
+        result = autobots_client.safe_post("api/tools/metasploit", data)
         if result.get("success"):
-            logger.info(f"✅ Metasploit module completed: {module}")
+            logger.info(f"âœ… Metasploit module completed: {module}")
         else:
-            logger.error(f"❌ Metasploit module failed: {module}")
+            logger.error(f"âŒ Metasploit module failed: {module}")
         return result
 
     @mcp.tool()
@@ -1131,12 +1131,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "password_file": password_file,
             "additional_args": additional_args
         }
-        logger.info(f"🔑 Starting Hydra attack: {target}:{service}")
-        result = hexstrike_client.safe_post("api/tools/hydra", data)
+        logger.info(f"ðŸ”‘ Starting Hydra attack: {target}:{service}")
+        result = autobots_client.safe_post("api/tools/hydra", data)
         if result.get("success"):
-            logger.info(f"✅ Hydra attack completed for {target}")
+            logger.info(f"âœ… Hydra attack completed for {target}")
         else:
-            logger.error(f"❌ Hydra attack failed for {target}")
+            logger.error(f"âŒ Hydra attack failed for {target}")
         return result
 
     @mcp.tool()
@@ -1164,12 +1164,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "format": format_type,
             "additional_args": additional_args
         }
-        logger.info(f"🔐 Starting John the Ripper: {hash_file}")
-        result = hexstrike_client.safe_post("api/tools/john", data)
+        logger.info(f"ðŸ” Starting John the Ripper: {hash_file}")
+        result = autobots_client.safe_post("api/tools/john", data)
         if result.get("success"):
-            logger.info(f"✅ John the Ripper completed")
+            logger.info(f"âœ… John the Ripper completed")
         else:
-            logger.error(f"❌ John the Ripper failed")
+            logger.error(f"âŒ John the Ripper failed")
         return result
 
     @mcp.tool()
@@ -1188,12 +1188,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "url": url,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting WPScan: {url}")
-        result = hexstrike_client.safe_post("api/tools/wpscan", data)
+        logger.info(f"ðŸ” Starting WPScan: {url}")
+        result = autobots_client.safe_post("api/tools/wpscan", data)
         if result.get("success"):
-            logger.info(f"✅ WPScan completed for {url}")
+            logger.info(f"âœ… WPScan completed for {url}")
         else:
-            logger.error(f"❌ WPScan failed for {url}")
+            logger.error(f"âŒ WPScan failed for {url}")
         return result
 
     @mcp.tool()
@@ -1212,12 +1212,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "target": target,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Enum4linux: {target}")
-        result = hexstrike_client.safe_post("api/tools/enum4linux", data)
+        logger.info(f"ðŸ” Starting Enum4linux: {target}")
+        result = autobots_client.safe_post("api/tools/enum4linux", data)
         if result.get("success"):
-            logger.info(f"✅ Enum4linux completed for {target}")
+            logger.info(f"âœ… Enum4linux completed for {target}")
         else:
-            logger.error(f"❌ Enum4linux failed for {target}")
+            logger.error(f"âŒ Enum4linux failed for {target}")
         return result
 
     @mcp.tool()
@@ -1242,12 +1242,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "match_codes": match_codes,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting FFuf {mode} fuzzing: {url}")
-        result = hexstrike_client.safe_post("api/tools/ffuf", data)
+        logger.info(f"ðŸ” Starting FFuf {mode} fuzzing: {url}")
+        result = autobots_client.safe_post("api/tools/ffuf", data)
         if result.get("success"):
-            logger.info(f"✅ FFuf fuzzing completed for {url}")
+            logger.info(f"âœ… FFuf fuzzing completed for {url}")
         else:
-            logger.error(f"❌ FFuf fuzzing failed for {url}")
+            logger.error(f"âŒ FFuf fuzzing failed for {url}")
         return result
 
     @mcp.tool()
@@ -1276,12 +1276,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "module": module,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting NetExec {protocol} scan: {target}")
-        result = hexstrike_client.safe_post("api/tools/netexec", data)
+        logger.info(f"ðŸ” Starting NetExec {protocol} scan: {target}")
+        result = autobots_client.safe_post("api/tools/netexec", data)
         if result.get("success"):
-            logger.info(f"✅ NetExec scan completed for {target}")
+            logger.info(f"âœ… NetExec scan completed for {target}")
         else:
-            logger.error(f"❌ NetExec scan failed for {target}")
+            logger.error(f"âŒ NetExec scan failed for {target}")
         return result
 
     @mcp.tool()
@@ -1302,12 +1302,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "mode": mode,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Amass {mode}: {domain}")
-        result = hexstrike_client.safe_post("api/tools/amass", data)
+        logger.info(f"ðŸ” Starting Amass {mode}: {domain}")
+        result = autobots_client.safe_post("api/tools/amass", data)
         if result.get("success"):
-            logger.info(f"✅ Amass completed for {domain}")
+            logger.info(f"âœ… Amass completed for {domain}")
         else:
-            logger.error(f"❌ Amass failed for {domain}")
+            logger.error(f"âŒ Amass failed for {domain}")
         return result
 
     @mcp.tool()
@@ -1334,12 +1334,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "mask": mask,
             "additional_args": additional_args
         }
-        logger.info(f"🔐 Starting Hashcat attack: mode {attack_mode}")
-        result = hexstrike_client.safe_post("api/tools/hashcat", data)
+        logger.info(f"ðŸ” Starting Hashcat attack: mode {attack_mode}")
+        result = autobots_client.safe_post("api/tools/hashcat", data)
         if result.get("success"):
-            logger.info(f"✅ Hashcat attack completed")
+            logger.info(f"âœ… Hashcat attack completed")
         else:
-            logger.error(f"❌ Hashcat attack failed")
+            logger.error(f"âŒ Hashcat attack failed")
         return result
 
     @mcp.tool()
@@ -1362,12 +1362,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "all_sources": all_sources,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Subfinder: {domain}")
-        result = hexstrike_client.safe_post("api/tools/subfinder", data)
+        logger.info(f"ðŸ” Starting Subfinder: {domain}")
+        result = autobots_client.safe_post("api/tools/subfinder", data)
         if result.get("success"):
-            logger.info(f"✅ Subfinder completed for {domain}")
+            logger.info(f"âœ… Subfinder completed for {domain}")
         else:
-            logger.error(f"❌ Subfinder failed for {domain}")
+            logger.error(f"âŒ Subfinder failed for {domain}")
         return result
 
     @mcp.tool()
@@ -1392,12 +1392,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "domain": domain,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting SMBMap: {target}")
-        result = hexstrike_client.safe_post("api/tools/smbmap", data)
+        logger.info(f"ðŸ” Starting SMBMap: {target}")
+        result = autobots_client.safe_post("api/tools/smbmap", data)
         if result.get("success"):
-            logger.info(f"✅ SMBMap completed for {target}")
+            logger.info(f"âœ… SMBMap completed for {target}")
         else:
-            logger.error(f"❌ SMBMap failed for {target}")
+            logger.error(f"âŒ SMBMap failed for {target}")
         return result
 
     # ============================================================================
@@ -1432,12 +1432,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "scripts": scripts,
             "additional_args": additional_args
         }
-        logger.info(f"⚡ Starting Rustscan: {target}")
-        result = hexstrike_client.safe_post("api/tools/rustscan", data)
+        logger.info(f"âš¡ Starting Rustscan: {target}")
+        result = autobots_client.safe_post("api/tools/rustscan", data)
         if result.get("success"):
-            logger.info(f"✅ Rustscan completed for {target}")
+            logger.info(f"âœ… Rustscan completed for {target}")
         else:
-            logger.error(f"❌ Rustscan failed for {target}")
+            logger.error(f"âŒ Rustscan failed for {target}")
         return result
 
     @mcp.tool()
@@ -1470,12 +1470,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "banners": banners,
             "additional_args": additional_args
         }
-        logger.info(f"🚀 Starting Masscan: {target} at rate {rate}")
-        result = hexstrike_client.safe_post("api/tools/masscan", data)
+        logger.info(f"ðŸš€ Starting Masscan: {target} at rate {rate}")
+        result = autobots_client.safe_post("api/tools/masscan", data)
         if result.get("success"):
-            logger.info(f"✅ Masscan completed for {target}")
+            logger.info(f"âœ… Masscan completed for {target}")
         else:
-            logger.error(f"❌ Masscan failed for {target}")
+            logger.error(f"âŒ Masscan failed for {target}")
         return result
 
     @mcp.tool()
@@ -1513,12 +1513,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "stealth": stealth,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Advanced Nmap: {target}")
-        result = hexstrike_client.safe_post("api/tools/nmap-advanced", data)
+        logger.info(f"ðŸ” Starting Advanced Nmap: {target}")
+        result = autobots_client.safe_post("api/tools/nmap-advanced", data)
         if result.get("success"):
-            logger.info(f"✅ Advanced Nmap completed for {target}")
+            logger.info(f"âœ… Advanced Nmap completed for {target}")
         else:
-            logger.error(f"❌ Advanced Nmap failed for {target}")
+            logger.error(f"âŒ Advanced Nmap failed for {target}")
         return result
 
     @mcp.tool()
@@ -1550,12 +1550,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "timeout": timeout,
             "additional_args": additional_args
         }
-        logger.info(f"🔄 Starting AutoRecon: {target}")
-        result = hexstrike_client.safe_post("api/tools/autorecon", data)
+        logger.info(f"ðŸ”„ Starting AutoRecon: {target}")
+        result = autobots_client.safe_post("api/tools/autorecon", data)
         if result.get("success"):
-            logger.info(f"✅ AutoRecon completed for {target}")
+            logger.info(f"âœ… AutoRecon completed for {target}")
         else:
-            logger.error(f"❌ AutoRecon failed for {target}")
+            logger.error(f"âŒ AutoRecon failed for {target}")
         return result
 
     @mcp.tool()
@@ -1591,12 +1591,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "policy": policy,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Enum4linux-ng: {target}")
-        result = hexstrike_client.safe_post("api/tools/enum4linux-ng", data)
+        logger.info(f"ðŸ” Starting Enum4linux-ng: {target}")
+        result = autobots_client.safe_post("api/tools/enum4linux-ng", data)
         if result.get("success"):
-            logger.info(f"✅ Enum4linux-ng completed for {target}")
+            logger.info(f"âœ… Enum4linux-ng completed for {target}")
         else:
-            logger.error(f"❌ Enum4linux-ng failed for {target}")
+            logger.error(f"âŒ Enum4linux-ng failed for {target}")
         return result
 
     @mcp.tool()
@@ -1625,12 +1625,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "commands": commands,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting rpcclient: {target}")
-        result = hexstrike_client.safe_post("api/tools/rpcclient", data)
+        logger.info(f"ðŸ” Starting rpcclient: {target}")
+        result = autobots_client.safe_post("api/tools/rpcclient", data)
         if result.get("success"):
-            logger.info(f"✅ rpcclient completed for {target}")
+            logger.info(f"âœ… rpcclient completed for {target}")
         else:
-            logger.error(f"❌ rpcclient failed for {target}")
+            logger.error(f"âŒ rpcclient failed for {target}")
         return result
 
     @mcp.tool()
@@ -1654,12 +1654,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "timeout": timeout,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting nbtscan: {target}")
-        result = hexstrike_client.safe_post("api/tools/nbtscan", data)
+        logger.info(f"ðŸ” Starting nbtscan: {target}")
+        result = autobots_client.safe_post("api/tools/nbtscan", data)
         if result.get("success"):
-            logger.info(f"✅ nbtscan completed for {target}")
+            logger.info(f"âœ… nbtscan completed for {target}")
         else:
-            logger.error(f"❌ nbtscan failed for {target}")
+            logger.error(f"âŒ nbtscan failed for {target}")
         return result
 
     @mcp.tool()
@@ -1687,12 +1687,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "retry": retry,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting arp-scan: {target if target else 'local network'}")
-        result = hexstrike_client.safe_post("api/tools/arp-scan", data)
+        logger.info(f"ðŸ” Starting arp-scan: {target if target else 'local network'}")
+        result = autobots_client.safe_post("api/tools/arp-scan", data)
         if result.get("success"):
-            logger.info(f"✅ arp-scan completed")
+            logger.info(f"âœ… arp-scan completed")
         else:
-            logger.error(f"❌ arp-scan failed")
+            logger.error(f"âŒ arp-scan failed")
         return result
 
     @mcp.tool()
@@ -1724,12 +1724,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "duration": duration,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Responder on interface: {interface}")
-        result = hexstrike_client.safe_post("api/tools/responder", data)
+        logger.info(f"ðŸ” Starting Responder on interface: {interface}")
+        result = autobots_client.safe_post("api/tools/responder", data)
         if result.get("success"):
-            logger.info(f"✅ Responder completed")
+            logger.info(f"âœ… Responder completed")
         else:
-            logger.error(f"❌ Responder failed")
+            logger.error(f"âŒ Responder failed")
         return result
 
     @mcp.tool()
@@ -1752,12 +1752,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "profile": profile,
             "additional_args": additional_args
         }
-        logger.info(f"🧠 Starting Volatility analysis: {plugin}")
-        result = hexstrike_client.safe_post("api/tools/volatility", data)
+        logger.info(f"ðŸ§  Starting Volatility analysis: {plugin}")
+        result = autobots_client.safe_post("api/tools/volatility", data)
         if result.get("success"):
-            logger.info(f"✅ Volatility analysis completed")
+            logger.info(f"âœ… Volatility analysis completed")
         else:
-            logger.error(f"❌ Volatility analysis failed")
+            logger.error(f"âŒ Volatility analysis failed")
         return result
 
     @mcp.tool()
@@ -1784,12 +1784,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "iterations": iterations,
             "additional_args": additional_args
         }
-        logger.info(f"🚀 Starting MSFVenom payload generation: {payload}")
-        result = hexstrike_client.safe_post("api/tools/msfvenom", data)
+        logger.info(f"ðŸš€ Starting MSFVenom payload generation: {payload}")
+        result = autobots_client.safe_post("api/tools/msfvenom", data)
         if result.get("success"):
-            logger.info(f"✅ MSFVenom payload generated")
+            logger.info(f"âœ… MSFVenom payload generated")
         else:
-            logger.error(f"❌ MSFVenom payload generation failed")
+            logger.error(f"âŒ MSFVenom payload generation failed")
         return result
 
     # ============================================================================
@@ -1816,12 +1816,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "script_file": script_file,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting GDB analysis: {binary}")
-        result = hexstrike_client.safe_post("api/tools/gdb", data)
+        logger.info(f"ðŸ”§ Starting GDB analysis: {binary}")
+        result = autobots_client.safe_post("api/tools/gdb", data)
         if result.get("success"):
-            logger.info(f"✅ GDB analysis completed for {binary}")
+            logger.info(f"âœ… GDB analysis completed for {binary}")
         else:
-            logger.error(f"❌ GDB analysis failed for {binary}")
+            logger.error(f"âŒ GDB analysis failed for {binary}")
         return result
 
     @mcp.tool()
@@ -1842,12 +1842,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "commands": commands,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting Radare2 analysis: {binary}")
-        result = hexstrike_client.safe_post("api/tools/radare2", data)
+        logger.info(f"ðŸ”§ Starting Radare2 analysis: {binary}")
+        result = autobots_client.safe_post("api/tools/radare2", data)
         if result.get("success"):
-            logger.info(f"✅ Radare2 analysis completed for {binary}")
+            logger.info(f"âœ… Radare2 analysis completed for {binary}")
         else:
-            logger.error(f"❌ Radare2 analysis failed for {binary}")
+            logger.error(f"âŒ Radare2 analysis failed for {binary}")
         return result
 
     @mcp.tool()
@@ -1868,12 +1868,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "extract": extract,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting Binwalk analysis: {file_path}")
-        result = hexstrike_client.safe_post("api/tools/binwalk", data)
+        logger.info(f"ðŸ”§ Starting Binwalk analysis: {file_path}")
+        result = autobots_client.safe_post("api/tools/binwalk", data)
         if result.get("success"):
-            logger.info(f"✅ Binwalk analysis completed for {file_path}")
+            logger.info(f"âœ… Binwalk analysis completed for {file_path}")
         else:
-            logger.error(f"❌ Binwalk analysis failed for {file_path}")
+            logger.error(f"âŒ Binwalk analysis failed for {file_path}")
         return result
 
     @mcp.tool()
@@ -1894,12 +1894,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "gadget_type": gadget_type,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting ROPgadget search: {binary}")
-        result = hexstrike_client.safe_post("api/tools/ropgadget", data)
+        logger.info(f"ðŸ”§ Starting ROPgadget search: {binary}")
+        result = autobots_client.safe_post("api/tools/ropgadget", data)
         if result.get("success"):
-            logger.info(f"✅ ROPgadget search completed for {binary}")
+            logger.info(f"âœ… ROPgadget search completed for {binary}")
         else:
-            logger.error(f"❌ ROPgadget search failed for {binary}")
+            logger.error(f"âŒ ROPgadget search failed for {binary}")
         return result
 
     @mcp.tool()
@@ -1916,12 +1916,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         data = {
             "binary": binary
         }
-        logger.info(f"🔧 Starting Checksec analysis: {binary}")
-        result = hexstrike_client.safe_post("api/tools/checksec", data)
+        logger.info(f"ðŸ”§ Starting Checksec analysis: {binary}")
+        result = autobots_client.safe_post("api/tools/checksec", data)
         if result.get("success"):
-            logger.info(f"✅ Checksec analysis completed for {binary}")
+            logger.info(f"âœ… Checksec analysis completed for {binary}")
         else:
-            logger.error(f"❌ Checksec analysis failed for {binary}")
+            logger.error(f"âŒ Checksec analysis failed for {binary}")
         return result
 
     @mcp.tool()
@@ -1944,12 +1944,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "length": length,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting XXD hex dump: {file_path}")
-        result = hexstrike_client.safe_post("api/tools/xxd", data)
+        logger.info(f"ðŸ”§ Starting XXD hex dump: {file_path}")
+        result = autobots_client.safe_post("api/tools/xxd", data)
         if result.get("success"):
-            logger.info(f"✅ XXD hex dump completed for {file_path}")
+            logger.info(f"âœ… XXD hex dump completed for {file_path}")
         else:
-            logger.error(f"❌ XXD hex dump failed for {file_path}")
+            logger.error(f"âŒ XXD hex dump failed for {file_path}")
         return result
 
     @mcp.tool()
@@ -1970,12 +1970,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "min_len": min_len,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting Strings extraction: {file_path}")
-        result = hexstrike_client.safe_post("api/tools/strings", data)
+        logger.info(f"ðŸ”§ Starting Strings extraction: {file_path}")
+        result = autobots_client.safe_post("api/tools/strings", data)
         if result.get("success"):
-            logger.info(f"✅ Strings extraction completed for {file_path}")
+            logger.info(f"âœ… Strings extraction completed for {file_path}")
         else:
-            logger.error(f"❌ Strings extraction failed for {file_path}")
+            logger.error(f"âŒ Strings extraction failed for {file_path}")
         return result
 
     @mcp.tool()
@@ -1996,12 +1996,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "disassemble": disassemble,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting Objdump analysis: {binary}")
-        result = hexstrike_client.safe_post("api/tools/objdump", data)
+        logger.info(f"ðŸ”§ Starting Objdump analysis: {binary}")
+        result = autobots_client.safe_post("api/tools/objdump", data)
         if result.get("success"):
-            logger.info(f"✅ Objdump analysis completed for {binary}")
+            logger.info(f"âœ… Objdump analysis completed for {binary}")
         else:
-            logger.error(f"❌ Objdump analysis failed for {binary}")
+            logger.error(f"âŒ Objdump analysis failed for {binary}")
         return result
 
     # ============================================================================
@@ -2009,7 +2009,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
     # ============================================================================
 
     @mcp.tool()
-    def ghidra_analysis(binary: str, project_name: str = "hexstrike_analysis",
+    def ghidra_analysis(binary: str, project_name: str = "autobots_analysis",
                        script_file: str = "", analysis_timeout: int = 300,
                        output_format: str = "xml", additional_args: str = "") -> Dict[str, Any]:
         """
@@ -2034,12 +2034,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_format": output_format,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting Ghidra analysis: {binary}")
-        result = hexstrike_client.safe_post("api/tools/ghidra", data)
+        logger.info(f"ðŸ”§ Starting Ghidra analysis: {binary}")
+        result = autobots_client.safe_post("api/tools/ghidra", data)
         if result.get("success"):
-            logger.info(f"✅ Ghidra analysis completed for {binary}")
+            logger.info(f"âœ… Ghidra analysis completed for {binary}")
         else:
-            logger.error(f"❌ Ghidra analysis failed for {binary}")
+            logger.error(f"âŒ Ghidra analysis failed for {binary}")
         return result
 
     @mcp.tool()
@@ -2068,12 +2068,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "exploit_type": exploit_type,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting Pwntools exploit: {exploit_type}")
-        result = hexstrike_client.safe_post("api/tools/pwntools", data)
+        logger.info(f"ðŸ”§ Starting Pwntools exploit: {exploit_type}")
+        result = autobots_client.safe_post("api/tools/pwntools", data)
         if result.get("success"):
-            logger.info(f"✅ Pwntools exploit completed")
+            logger.info(f"âœ… Pwntools exploit completed")
         else:
-            logger.error(f"❌ Pwntools exploit failed")
+            logger.error(f"âŒ Pwntools exploit failed")
         return result
 
     @mcp.tool()
@@ -2094,12 +2094,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "level": level,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting one_gadget analysis: {libc_path}")
-        result = hexstrike_client.safe_post("api/tools/one-gadget", data)
+        logger.info(f"ðŸ”§ Starting one_gadget analysis: {libc_path}")
+        result = autobots_client.safe_post("api/tools/one-gadget", data)
         if result.get("success"):
-            logger.info(f"✅ one_gadget analysis completed")
+            logger.info(f"âœ… one_gadget analysis completed")
         else:
-            logger.error(f"❌ one_gadget analysis failed")
+            logger.error(f"âŒ one_gadget analysis failed")
         return result
 
     @mcp.tool()
@@ -2123,12 +2123,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "libc_id": libc_id,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting libc-database {action}: {symbols or libc_id}")
-        result = hexstrike_client.safe_post("api/tools/libc-database", data)
+        logger.info(f"ðŸ”§ Starting libc-database {action}: {symbols or libc_id}")
+        result = autobots_client.safe_post("api/tools/libc-database", data)
         if result.get("success"):
-            logger.info(f"✅ libc-database {action} completed")
+            logger.info(f"âœ… libc-database {action} completed")
         else:
-            logger.error(f"❌ libc-database {action} failed")
+            logger.error(f"âŒ libc-database {action} failed")
         return result
 
     @mcp.tool()
@@ -2154,12 +2154,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "core_file": core_file,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting GDB-PEDA analysis: {binary or f'PID {attach_pid}' or core_file}")
-        result = hexstrike_client.safe_post("api/tools/gdb-peda", data)
+        logger.info(f"ðŸ”§ Starting GDB-PEDA analysis: {binary or f'PID {attach_pid}' or core_file}")
+        result = autobots_client.safe_post("api/tools/gdb-peda", data)
         if result.get("success"):
-            logger.info(f"✅ GDB-PEDA analysis completed")
+            logger.info(f"âœ… GDB-PEDA analysis completed")
         else:
-            logger.error(f"❌ GDB-PEDA analysis failed")
+            logger.error(f"âŒ GDB-PEDA analysis failed")
         return result
 
     @mcp.tool()
@@ -2188,12 +2188,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "analysis_type": analysis_type,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting angr analysis: {binary}")
-        result = hexstrike_client.safe_post("api/tools/angr", data)
+        logger.info(f"ðŸ”§ Starting angr analysis: {binary}")
+        result = autobots_client.safe_post("api/tools/angr", data)
         if result.get("success"):
-            logger.info(f"✅ angr analysis completed")
+            logger.info(f"âœ… angr analysis completed")
         else:
-            logger.error(f"❌ angr analysis failed")
+            logger.error(f"âŒ angr analysis failed")
         return result
 
     @mcp.tool()
@@ -2222,12 +2222,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "search_string": search_string,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting ropper analysis: {binary}")
-        result = hexstrike_client.safe_post("api/tools/ropper", data)
+        logger.info(f"ðŸ”§ Starting ropper analysis: {binary}")
+        result = autobots_client.safe_post("api/tools/ropper", data)
         if result.get("success"):
-            logger.info(f"✅ ropper analysis completed")
+            logger.info(f"âœ… ropper analysis completed")
         else:
-            logger.error(f"❌ ropper analysis failed")
+            logger.error(f"âŒ ropper analysis failed")
         return result
 
     @mcp.tool()
@@ -2253,12 +2253,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "template_type": template_type,
             "additional_args": additional_args
         }
-        logger.info(f"🔧 Starting pwninit setup: {binary}")
-        result = hexstrike_client.safe_post("api/tools/pwninit", data)
+        logger.info(f"ðŸ”§ Starting pwninit setup: {binary}")
+        result = autobots_client.safe_post("api/tools/pwninit", data)
         if result.get("success"):
-            logger.info(f"✅ pwninit setup completed")
+            logger.info(f"âœ… pwninit setup completed")
         else:
-            logger.error(f"❌ pwninit setup failed")
+            logger.error(f"âŒ pwninit setup failed")
         return result
 
     @mcp.tool()
@@ -2281,12 +2281,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "threads": threads,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Feroxbuster scan: {url}")
-        result = hexstrike_client.safe_post("api/tools/feroxbuster", data)
+        logger.info(f"ðŸ” Starting Feroxbuster scan: {url}")
+        result = autobots_client.safe_post("api/tools/feroxbuster", data)
         if result.get("success"):
-            logger.info(f"✅ Feroxbuster scan completed for {url}")
+            logger.info(f"âœ… Feroxbuster scan completed for {url}")
         else:
-            logger.error(f"❌ Feroxbuster scan failed for {url}")
+            logger.error(f"âŒ Feroxbuster scan failed for {url}")
         return result
 
     @mcp.tool()
@@ -2307,12 +2307,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "module": module,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting DotDotPwn scan: {target}")
-        result = hexstrike_client.safe_post("api/tools/dotdotpwn", data)
+        logger.info(f"ðŸ” Starting DotDotPwn scan: {target}")
+        result = autobots_client.safe_post("api/tools/dotdotpwn", data)
         if result.get("success"):
-            logger.info(f"✅ DotDotPwn scan completed for {target}")
+            logger.info(f"âœ… DotDotPwn scan completed for {target}")
         else:
-            logger.error(f"❌ DotDotPwn scan failed for {target}")
+            logger.error(f"âŒ DotDotPwn scan failed for {target}")
         return result
 
     @mcp.tool()
@@ -2333,12 +2333,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "params": params,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting XSSer scan: {url}")
-        result = hexstrike_client.safe_post("api/tools/xsser", data)
+        logger.info(f"ðŸ” Starting XSSer scan: {url}")
+        result = autobots_client.safe_post("api/tools/xsser", data)
         if result.get("success"):
-            logger.info(f"✅ XSSer scan completed for {url}")
+            logger.info(f"âœ… XSSer scan completed for {url}")
         else:
-            logger.error(f"❌ XSSer scan failed for {url}")
+            logger.error(f"âŒ XSSer scan failed for {url}")
         return result
 
     @mcp.tool()
@@ -2359,12 +2359,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "wordlist": wordlist,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Wfuzz scan: {url}")
-        result = hexstrike_client.safe_post("api/tools/wfuzz", data)
+        logger.info(f"ðŸ” Starting Wfuzz scan: {url}")
+        result = autobots_client.safe_post("api/tools/wfuzz", data)
         if result.get("success"):
-            logger.info(f"✅ Wfuzz scan completed for {url}")
+            logger.info(f"âœ… Wfuzz scan completed for {url}")
         else:
-            logger.error(f"❌ Wfuzz scan failed for {url}")
+            logger.error(f"âŒ Wfuzz scan failed for {url}")
         return result
 
     # ============================================================================
@@ -2397,12 +2397,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "recursive": recursive,
             "additional_args": additional_args
         }
-        logger.info(f"📁 Starting Dirsearch scan: {url}")
-        result = hexstrike_client.safe_post("api/tools/dirsearch", data)
+        logger.info(f"ðŸ“ Starting Dirsearch scan: {url}")
+        result = autobots_client.safe_post("api/tools/dirsearch", data)
         if result.get("success"):
-            logger.info(f"✅ Dirsearch scan completed for {url}")
+            logger.info(f"âœ… Dirsearch scan completed for {url}")
         else:
-            logger.error(f"❌ Dirsearch scan failed for {url}")
+            logger.error(f"âŒ Dirsearch scan failed for {url}")
         return result
 
     @mcp.tool()
@@ -2431,12 +2431,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_format": output_format,
             "additional_args": additional_args
         }
-        logger.info(f"⚔️  Starting Katana crawl: {url}")
-        result = hexstrike_client.safe_post("api/tools/katana", data)
+        logger.info(f"âš”ï¸  Starting Katana crawl: {url}")
+        result = autobots_client.safe_post("api/tools/katana", data)
         if result.get("success"):
-            logger.info(f"✅ Katana crawl completed for {url}")
+            logger.info(f"âœ… Katana crawl completed for {url}")
         else:
-            logger.error(f"❌ Katana crawl failed for {url}")
+            logger.error(f"âŒ Katana crawl failed for {url}")
         return result
 
     @mcp.tool()
@@ -2463,12 +2463,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "blacklist": blacklist,
             "additional_args": additional_args
         }
-        logger.info(f"📡 Starting Gau URL discovery: {domain}")
-        result = hexstrike_client.safe_post("api/tools/gau", data)
+        logger.info(f"ðŸ“¡ Starting Gau URL discovery: {domain}")
+        result = autobots_client.safe_post("api/tools/gau", data)
         if result.get("success"):
-            logger.info(f"✅ Gau URL discovery completed for {domain}")
+            logger.info(f"âœ… Gau URL discovery completed for {domain}")
         else:
-            logger.error(f"❌ Gau URL discovery failed for {domain}")
+            logger.error(f"âŒ Gau URL discovery failed for {domain}")
         return result
 
     @mcp.tool()
@@ -2492,12 +2492,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "no_subs": no_subs,
             "additional_args": additional_args
         }
-        logger.info(f"🕰️  Starting Waybackurls discovery: {domain}")
-        result = hexstrike_client.safe_post("api/tools/waybackurls", data)
+        logger.info(f"ðŸ•°ï¸  Starting Waybackurls discovery: {domain}")
+        result = autobots_client.safe_post("api/tools/waybackurls", data)
         if result.get("success"):
-            logger.info(f"✅ Waybackurls discovery completed for {domain}")
+            logger.info(f"âœ… Waybackurls discovery completed for {domain}")
         else:
-            logger.error(f"❌ Waybackurls discovery failed for {domain}")
+            logger.error(f"âŒ Waybackurls discovery failed for {domain}")
         return result
 
     @mcp.tool()
@@ -2528,12 +2528,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "stable": stable,
             "additional_args": additional_args
         }
-        logger.info(f"🎯 Starting Arjun parameter discovery: {url}")
-        result = hexstrike_client.safe_post("api/tools/arjun", data)
+        logger.info(f"ðŸŽ¯ Starting Arjun parameter discovery: {url}")
+        result = autobots_client.safe_post("api/tools/arjun", data)
         if result.get("success"):
-            logger.info(f"✅ Arjun parameter discovery completed for {url}")
+            logger.info(f"âœ… Arjun parameter discovery completed for {url}")
         else:
-            logger.error(f"❌ Arjun parameter discovery failed for {url}")
+            logger.error(f"âŒ Arjun parameter discovery failed for {url}")
         return result
 
     @mcp.tool()
@@ -2560,12 +2560,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output": output,
             "additional_args": additional_args
         }
-        logger.info(f"🕷️  Starting ParamSpider mining: {domain}")
-        result = hexstrike_client.safe_post("api/tools/paramspider", data)
+        logger.info(f"ðŸ•·ï¸  Starting ParamSpider mining: {domain}")
+        result = autobots_client.safe_post("api/tools/paramspider", data)
         if result.get("success"):
-            logger.info(f"✅ ParamSpider mining completed for {domain}")
+            logger.info(f"âœ… ParamSpider mining completed for {domain}")
         else:
-            logger.error(f"❌ ParamSpider mining failed for {domain}")
+            logger.error(f"âŒ ParamSpider mining failed for {domain}")
         return result
 
     @mcp.tool()
@@ -2594,12 +2594,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "headers": headers,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting x8 parameter discovery: {url}")
-        result = hexstrike_client.safe_post("api/tools/x8", data)
+        logger.info(f"ðŸ” Starting x8 parameter discovery: {url}")
+        result = autobots_client.safe_post("api/tools/x8", data)
         if result.get("success"):
-            logger.info(f"✅ x8 parameter discovery completed for {url}")
+            logger.info(f"âœ… x8 parameter discovery completed for {url}")
         else:
-            logger.error(f"❌ x8 parameter discovery failed for {url}")
+            logger.error(f"âŒ x8 parameter discovery failed for {url}")
         return result
 
     @mcp.tool()
@@ -2628,12 +2628,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "timeout": timeout,
             "additional_args": additional_args
         }
-        logger.info(f"🔬 Starting Jaeles vulnerability scan: {url}")
-        result = hexstrike_client.safe_post("api/tools/jaeles", data)
+        logger.info(f"ðŸ”¬ Starting Jaeles vulnerability scan: {url}")
+        result = autobots_client.safe_post("api/tools/jaeles", data)
         if result.get("success"):
-            logger.info(f"✅ Jaeles vulnerability scan completed for {url}")
+            logger.info(f"âœ… Jaeles vulnerability scan completed for {url}")
         else:
-            logger.error(f"❌ Jaeles vulnerability scan failed for {url}")
+            logger.error(f"âŒ Jaeles vulnerability scan failed for {url}")
         return result
 
     @mcp.tool()
@@ -2664,12 +2664,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "custom_payload": custom_payload,
             "additional_args": additional_args
         }
-        logger.info(f"🎯 Starting Dalfox XSS scan: {url if url else 'pipe mode'}")
-        result = hexstrike_client.safe_post("api/tools/dalfox", data)
+        logger.info(f"ðŸŽ¯ Starting Dalfox XSS scan: {url if url else 'pipe mode'}")
+        result = autobots_client.safe_post("api/tools/dalfox", data)
         if result.get("success"):
-            logger.info(f"✅ Dalfox XSS scan completed")
+            logger.info(f"âœ… Dalfox XSS scan completed")
         else:
-            logger.error(f"❌ Dalfox XSS scan failed")
+            logger.error(f"âŒ Dalfox XSS scan failed")
         return result
 
     @mcp.tool()
@@ -2705,12 +2705,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "threads": threads,
             "additional_args": additional_args
         }
-        logger.info(f"🌍 Starting httpx probe: {target}")
-        result = hexstrike_client.safe_post("api/tools/httpx", data)
+        logger.info(f"ðŸŒ Starting httpx probe: {target}")
+        result = autobots_client.safe_post("api/tools/httpx", data)
         if result.get("success"):
-            logger.info(f"✅ httpx probe completed for {target}")
+            logger.info(f"âœ… httpx probe completed for {target}")
         else:
-            logger.error(f"❌ httpx probe failed for {target}")
+            logger.error(f"âŒ httpx probe failed for {target}")
         return result
 
     @mcp.tool()
@@ -2732,12 +2732,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info("📝 Starting anew data processing")
-        result = hexstrike_client.safe_post("api/tools/anew", data)
+        logger.info("ðŸ“ Starting anew data processing")
+        result = autobots_client.safe_post("api/tools/anew", data)
         if result.get("success"):
-            logger.info("✅ anew data processing completed")
+            logger.info("âœ… anew data processing completed")
         else:
-            logger.error("❌ anew data processing failed")
+            logger.error("âŒ anew data processing failed")
         return result
 
     @mcp.tool()
@@ -2759,12 +2759,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "replacement": replacement,
             "additional_args": additional_args
         }
-        logger.info("🔄 Starting qsreplace parameter replacement")
-        result = hexstrike_client.safe_post("api/tools/qsreplace", data)
+        logger.info("ðŸ”„ Starting qsreplace parameter replacement")
+        result = autobots_client.safe_post("api/tools/qsreplace", data)
         if result.get("success"):
-            logger.info("✅ qsreplace parameter replacement completed")
+            logger.info("âœ… qsreplace parameter replacement completed")
         else:
-            logger.error("❌ qsreplace parameter replacement failed")
+            logger.error("âŒ qsreplace parameter replacement failed")
         return result
 
     @mcp.tool()
@@ -2788,12 +2788,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "blacklist": blacklist,
             "additional_args": additional_args
         }
-        logger.info("🔍 Starting uro URL filtering")
-        result = hexstrike_client.safe_post("api/tools/uro", data)
+        logger.info("ðŸ” Starting uro URL filtering")
+        result = autobots_client.safe_post("api/tools/uro", data)
         if result.get("success"):
-            logger.info("✅ uro URL filtering completed")
+            logger.info("âœ… uro URL filtering completed")
         else:
-            logger.error("❌ uro URL filtering failed")
+            logger.error("âŒ uro URL filtering failed")
         return result
 
     # ============================================================================
@@ -2820,24 +2820,24 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "technology": technology,
             "url": url
         }
-        logger.info(f"🤖 Generating AI payloads for {attack_type} attack")
-        result = hexstrike_client.safe_post("api/ai/generate_payload", data)
+        logger.info(f"ðŸ¤– Generating AI payloads for {attack_type} attack")
+        result = autobots_client.safe_post("api/ai/generate_payload", data)
 
         if result.get("success"):
             payload_data = result.get("ai_payload_generation", {})
             count = payload_data.get("payload_count", 0)
-            logger.info(f"✅ Generated {count} contextual {attack_type} payloads")
+            logger.info(f"âœ… Generated {count} contextual {attack_type} payloads")
 
             # Log some example payloads for user awareness
             payloads = payload_data.get("payloads", [])
             if payloads:
-                logger.info("🎯 Sample payloads generated:")
+                logger.info("ðŸŽ¯ Sample payloads generated:")
                 for i, payload_info in enumerate(payloads[:3]):  # Show first 3
                     risk = payload_info.get("risk_level", "UNKNOWN")
                     context = payload_info.get("context", "basic")
-                    logger.info(f"   ├─ [{risk}] {context}: {payload_info['payload'][:50]}...")
+                    logger.info(f"   â”œâ”€ [{risk}] {context}: {payload_info['payload'][:50]}...")
         else:
-            logger.error("❌ AI payload generation failed")
+            logger.error("âŒ AI payload generation failed")
 
         return result
 
@@ -2859,20 +2859,20 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "target_url": target_url,
             "method": method
         }
-        logger.info(f"🧪 Testing AI payload against {target_url}")
-        result = hexstrike_client.safe_post("api/ai/test_payload", data)
+        logger.info(f"ðŸ§ª Testing AI payload against {target_url}")
+        result = autobots_client.safe_post("api/ai/test_payload", data)
 
         if result.get("success"):
             analysis = result.get("ai_analysis", {})
             potential_vuln = analysis.get("potential_vulnerability", False)
-            logger.info(f"🔍 Payload test completed | Vulnerability detected: {potential_vuln}")
+            logger.info(f"ðŸ” Payload test completed | Vulnerability detected: {potential_vuln}")
 
             if potential_vuln:
-                logger.warning("⚠️  Potential vulnerability found! Review the response carefully.")
+                logger.warning("âš ï¸  Potential vulnerability found! Review the response carefully.")
             else:
-                logger.info("✅ No obvious vulnerability indicators detected")
+                logger.info("âœ… No obvious vulnerability indicators detected")
         else:
-            logger.error("❌ Payload testing failed")
+            logger.error("âŒ Payload testing failed")
 
         return result
 
@@ -2900,11 +2900,11 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             }
         }
 
-        logger.info(f"🚀 Generating comprehensive attack suite for {target_url}")
-        logger.info(f"🎯 Attack types: {', '.join(attack_list)}")
+        logger.info(f"ðŸš€ Generating comprehensive attack suite for {target_url}")
+        logger.info(f"ðŸŽ¯ Attack types: {', '.join(attack_list)}")
 
         for attack_type in attack_list:
-            logger.info(f"🤖 Generating {attack_type} payloads...")
+            logger.info(f"ðŸ¤– Generating {attack_type} payloads...")
 
             # Generate payloads for this attack type
             payload_result = self.ai_generate_payload(attack_type, "advanced", "", target_url)
@@ -2922,10 +2922,10 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                     if payload_info.get("risk_level") == "HIGH":
                         results["summary"]["high_risk_payloads"] += 1
 
-        logger.info(f"✅ Attack suite generated:")
-        logger.info(f"   ├─ Total payloads: {results['summary']['total_payloads']}")
-        logger.info(f"   ├─ High-risk payloads: {results['summary']['high_risk_payloads']}")
-        logger.info(f"   └─ Test cases: {results['summary']['test_cases']}")
+        logger.info(f"âœ… Attack suite generated:")
+        logger.info(f"   â”œâ”€ Total payloads: {results['summary']['total_payloads']}")
+        logger.info(f"   â”œâ”€ High-risk payloads: {results['summary']['high_risk_payloads']}")
+        logger.info(f"   â””â”€ Test cases: {results['summary']['test_cases']}")
 
         return {
             "success": True,
@@ -2958,18 +2958,18 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "wordlist": wordlist
         }
 
-        logger.info(f"🔍 Starting API fuzzing: {base_url}")
-        result = hexstrike_client.safe_post("api/tools/api_fuzzer", data)
+        logger.info(f"ðŸ” Starting API fuzzing: {base_url}")
+        result = autobots_client.safe_post("api/tools/api_fuzzer", data)
 
         if result.get("success"):
             fuzzing_type = result.get("fuzzing_type", "unknown")
             if fuzzing_type == "endpoint_testing":
                 endpoint_count = len(result.get("results", []))
-                logger.info(f"✅ API endpoint testing completed: {endpoint_count} endpoints tested")
+                logger.info(f"âœ… API endpoint testing completed: {endpoint_count} endpoints tested")
             else:
-                logger.info(f"✅ API endpoint discovery completed")
+                logger.info(f"âœ… API endpoint discovery completed")
         else:
-            logger.error("❌ API fuzzing failed")
+            logger.error("âŒ API fuzzing failed")
 
         return result
 
@@ -2994,24 +2994,24 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "test_mutations": test_mutations
         }
 
-        logger.info(f"🔍 Starting GraphQL security scan: {endpoint}")
-        result = hexstrike_client.safe_post("api/tools/graphql_scanner", data)
+        logger.info(f"ðŸ” Starting GraphQL security scan: {endpoint}")
+        result = autobots_client.safe_post("api/tools/graphql_scanner", data)
 
         if result.get("success"):
             scan_results = result.get("graphql_scan_results", {})
             vuln_count = len(scan_results.get("vulnerabilities", []))
             tests_count = len(scan_results.get("tests_performed", []))
 
-            logger.info(f"✅ GraphQL scan completed: {tests_count} tests, {vuln_count} vulnerabilities")
+            logger.info(f"âœ… GraphQL scan completed: {tests_count} tests, {vuln_count} vulnerabilities")
 
             if vuln_count > 0:
-                logger.warning(f"⚠️  Found {vuln_count} GraphQL vulnerabilities!")
+                logger.warning(f"âš ï¸  Found {vuln_count} GraphQL vulnerabilities!")
                 for vuln in scan_results.get("vulnerabilities", [])[:3]:  # Show first 3
                     severity = vuln.get("severity", "UNKNOWN")
                     vuln_type = vuln.get("type", "unknown")
-                    logger.warning(f"   ├─ [{severity}] {vuln_type}")
+                    logger.warning(f"   â”œâ”€ [{severity}] {vuln_type}")
         else:
-            logger.error("❌ GraphQL scanning failed")
+            logger.error("âŒ GraphQL scanning failed")
 
         return result
 
@@ -3032,25 +3032,25 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "target_url": target_url
         }
 
-        logger.info(f"🔍 Starting JWT security analysis")
-        result = hexstrike_client.safe_post("api/tools/jwt_analyzer", data)
+        logger.info(f"ðŸ” Starting JWT security analysis")
+        result = autobots_client.safe_post("api/tools/jwt_analyzer", data)
 
         if result.get("success"):
             analysis = result.get("jwt_analysis_results", {})
             vuln_count = len(analysis.get("vulnerabilities", []))
             algorithm = analysis.get("token_info", {}).get("algorithm", "unknown")
 
-            logger.info(f"✅ JWT analysis completed: {vuln_count} vulnerabilities found")
-            logger.info(f"🔐 Token algorithm: {algorithm}")
+            logger.info(f"âœ… JWT analysis completed: {vuln_count} vulnerabilities found")
+            logger.info(f"ðŸ” Token algorithm: {algorithm}")
 
             if vuln_count > 0:
-                logger.warning(f"⚠️  Found {vuln_count} JWT vulnerabilities!")
+                logger.warning(f"âš ï¸  Found {vuln_count} JWT vulnerabilities!")
                 for vuln in analysis.get("vulnerabilities", [])[:3]:  # Show first 3
                     severity = vuln.get("severity", "UNKNOWN")
                     vuln_type = vuln.get("type", "unknown")
-                    logger.warning(f"   ├─ [{severity}] {vuln_type}")
+                    logger.warning(f"   â”œâ”€ [{severity}] {vuln_type}")
         else:
-            logger.error("❌ JWT analysis failed")
+            logger.error("âŒ JWT analysis failed")
 
         return result
 
@@ -3071,31 +3071,31 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "schema_type": schema_type
         }
 
-        logger.info(f"🔍 Starting API schema analysis: {schema_url}")
-        result = hexstrike_client.safe_post("api/tools/api_schema_analyzer", data)
+        logger.info(f"ðŸ” Starting API schema analysis: {schema_url}")
+        result = autobots_client.safe_post("api/tools/api_schema_analyzer", data)
 
         if result.get("success"):
             analysis = result.get("schema_analysis_results", {})
             endpoint_count = len(analysis.get("endpoints_found", []))
             issue_count = len(analysis.get("security_issues", []))
 
-            logger.info(f"✅ Schema analysis completed: {endpoint_count} endpoints, {issue_count} issues")
+            logger.info(f"âœ… Schema analysis completed: {endpoint_count} endpoints, {issue_count} issues")
 
             if issue_count > 0:
-                logger.warning(f"⚠️  Found {issue_count} security issues in schema!")
+                logger.warning(f"âš ï¸  Found {issue_count} security issues in schema!")
                 for issue in analysis.get("security_issues", [])[:3]:  # Show first 3
                     severity = issue.get("severity", "UNKNOWN")
                     issue_type = issue.get("issue", "unknown")
-                    logger.warning(f"   ├─ [{severity}] {issue_type}")
+                    logger.warning(f"   â”œâ”€ [{severity}] {issue_type}")
 
             if endpoint_count > 0:
-                logger.info(f"📊 Discovered endpoints:")
+                logger.info(f"ðŸ“Š Discovered endpoints:")
                 for endpoint in analysis.get("endpoints_found", [])[:5]:  # Show first 5
                     method = endpoint.get("method", "GET")
                     path = endpoint.get("path", "/")
-                    logger.info(f"   ├─ {method} {path}")
+                    logger.info(f"   â”œâ”€ {method} {path}")
         else:
-            logger.error("❌ Schema analysis failed")
+            logger.error("âŒ Schema analysis failed")
 
         return result
 
@@ -3122,10 +3122,10 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "recommendations": []
         }
 
-        logger.info(f"🚀 Starting comprehensive API security audit: {base_url}")
+        logger.info(f"ðŸš€ Starting comprehensive API security audit: {base_url}")
 
         # 1. API Endpoint Fuzzing
-        logger.info("🔍 Phase 1: API endpoint discovery and fuzzing")
+        logger.info("ðŸ” Phase 1: API endpoint discovery and fuzzing")
         fuzz_result = self.api_fuzzer(base_url)
         if fuzz_result.get("success"):
             audit_results["tests_performed"].append("api_fuzzing")
@@ -3133,7 +3133,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
 
         # 2. Schema Analysis (if provided)
         if schema_url:
-            logger.info("🔍 Phase 2: API schema analysis")
+            logger.info("ðŸ” Phase 2: API schema analysis")
             schema_result = self.api_schema_analyzer(schema_url)
             if schema_result.get("success"):
                 audit_results["tests_performed"].append("schema_analysis")
@@ -3144,7 +3144,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
 
         # 3. JWT Analysis (if provided)
         if jwt_token:
-            logger.info("🔍 Phase 3: JWT token analysis")
+            logger.info("ðŸ” Phase 3: JWT token analysis")
             jwt_result = self.jwt_analyzer(jwt_token, base_url)
             if jwt_result.get("success"):
                 audit_results["tests_performed"].append("jwt_analysis")
@@ -3155,7 +3155,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
 
         # 4. GraphQL Testing (if provided)
         if graphql_endpoint:
-            logger.info("🔍 Phase 4: GraphQL security scanning")
+            logger.info("ðŸ” Phase 4: GraphQL security scanning")
             graphql_result = self.graphql_scanner(graphql_endpoint)
             if graphql_result.get("success"):
                 audit_results["tests_performed"].append("graphql_scanning")
@@ -3183,10 +3183,10 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "audit_coverage": "comprehensive" if len(audit_results["tests_performed"]) >= 3 else "partial"
         }
 
-        logger.info(f"✅ Comprehensive API audit completed:")
-        logger.info(f"   ├─ Tests performed: {audit_results['summary']['tests_performed']}")
-        logger.info(f"   ├─ Total vulnerabilities: {audit_results['summary']['total_vulnerabilities']}")
-        logger.info(f"   └─ Coverage: {audit_results['summary']['audit_coverage']}")
+        logger.info(f"âœ… Comprehensive API audit completed:")
+        logger.info(f"   â”œâ”€ Tests performed: {audit_results['summary']['tests_performed']}")
+        logger.info(f"   â”œâ”€ Total vulnerabilities: {audit_results['summary']['total_vulnerabilities']}")
+        logger.info(f"   â””â”€ Coverage: {audit_results['summary']['audit_coverage']}")
 
         return {
             "success": True,
@@ -3217,12 +3217,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info(f"🧠 Starting Volatility3 analysis: {plugin}")
-        result = hexstrike_client.safe_post("api/tools/volatility3", data)
+        logger.info(f"ðŸ§  Starting Volatility3 analysis: {plugin}")
+        result = autobots_client.safe_post("api/tools/volatility3", data)
         if result.get("success"):
-            logger.info(f"✅ Volatility3 analysis completed")
+            logger.info(f"âœ… Volatility3 analysis completed")
         else:
-            logger.error(f"❌ Volatility3 analysis failed")
+            logger.error(f"âŒ Volatility3 analysis failed")
         return result
 
     @mcp.tool()
@@ -3245,12 +3245,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "file_types": file_types,
             "additional_args": additional_args
         }
-        logger.info(f"📁 Starting Foremost file carving: {input_file}")
-        result = hexstrike_client.safe_post("api/tools/foremost", data)
+        logger.info(f"ðŸ“ Starting Foremost file carving: {input_file}")
+        result = autobots_client.safe_post("api/tools/foremost", data)
         if result.get("success"):
-            logger.info(f"✅ Foremost carving completed")
+            logger.info(f"âœ… Foremost carving completed")
         else:
-            logger.error(f"❌ Foremost carving failed")
+            logger.error(f"âŒ Foremost carving failed")
         return result
 
     @mcp.tool()
@@ -3277,12 +3277,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info(f"🖼️ Starting Steghide {action}: {cover_file}")
-        result = hexstrike_client.safe_post("api/tools/steghide", data)
+        logger.info(f"ðŸ–¼ï¸ Starting Steghide {action}: {cover_file}")
+        result = autobots_client.safe_post("api/tools/steghide", data)
         if result.get("success"):
-            logger.info(f"✅ Steghide {action} completed")
+            logger.info(f"âœ… Steghide {action} completed")
         else:
-            logger.error(f"❌ Steghide {action} failed")
+            logger.error(f"âŒ Steghide {action} failed")
         return result
 
     @mcp.tool()
@@ -3305,12 +3305,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "tags": tags,
             "additional_args": additional_args
         }
-        logger.info(f"📷 Starting ExifTool analysis: {file_path}")
-        result = hexstrike_client.safe_post("api/tools/exiftool", data)
+        logger.info(f"ðŸ“· Starting ExifTool analysis: {file_path}")
+        result = autobots_client.safe_post("api/tools/exiftool", data)
         if result.get("success"):
-            logger.info(f"✅ ExifTool analysis completed")
+            logger.info(f"âœ… ExifTool analysis completed")
         else:
-            logger.error(f"❌ ExifTool analysis failed")
+            logger.error(f"âŒ ExifTool analysis failed")
         return result
 
     @mcp.tool()
@@ -3335,12 +3335,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "append_data": append_data,
             "additional_args": additional_args
         }
-        logger.info(f"🔐 Starting HashPump attack")
-        result = hexstrike_client.safe_post("api/tools/hashpump", data)
+        logger.info(f"ðŸ” Starting HashPump attack")
+        result = autobots_client.safe_post("api/tools/hashpump", data)
         if result.get("success"):
-            logger.info(f"✅ HashPump attack completed")
+            logger.info(f"âœ… HashPump attack completed")
         else:
-            logger.error(f"❌ HashPump attack failed")
+            logger.error(f"âŒ HashPump attack failed")
         return result
 
     # ============================================================================
@@ -3380,12 +3380,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "wayback": wayback,
             "additional_args": additional_args
         }
-        logger.info(f"🕷️ Starting Hakrawler crawling: {url}")
-        result = hexstrike_client.safe_post("api/tools/hakrawler", data)
+        logger.info(f"ðŸ•·ï¸ Starting Hakrawler crawling: {url}")
+        result = autobots_client.safe_post("api/tools/hakrawler", data)
         if result.get("success"):
-            logger.info(f"✅ Hakrawler crawling completed")
+            logger.info(f"âœ… Hakrawler crawling completed")
         else:
-            logger.error(f"❌ Hakrawler crawling failed")
+            logger.error(f"âŒ Hakrawler crawling failed")
         return result
 
     @mcp.tool()
@@ -3416,12 +3416,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info(f"🌐 Starting HTTPx probing")
-        result = hexstrike_client.safe_post("api/tools/httpx", data)
+        logger.info(f"ðŸŒ Starting HTTPx probing")
+        result = autobots_client.safe_post("api/tools/httpx", data)
         if result.get("success"):
-            logger.info(f"✅ HTTPx probing completed")
+            logger.info(f"âœ… HTTPx probing completed")
         else:
-            logger.error(f"❌ HTTPx probing failed")
+            logger.error(f"âŒ HTTPx probing failed")
         return result
 
     @mcp.tool()
@@ -3446,12 +3446,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "level": level,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting ParamSpider discovery: {domain}")
-        result = hexstrike_client.safe_post("api/tools/paramspider", data)
+        logger.info(f"ðŸ” Starting ParamSpider discovery: {domain}")
+        result = autobots_client.safe_post("api/tools/paramspider", data)
         if result.get("success"):
-            logger.info(f"✅ ParamSpider discovery completed")
+            logger.info(f"âœ… ParamSpider discovery completed")
         else:
-            logger.error(f"❌ ParamSpider discovery failed")
+            logger.error(f"âŒ ParamSpider discovery failed")
         return result
 
     # ============================================================================
@@ -3486,12 +3486,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Burp Suite scan")
-        result = hexstrike_client.safe_post("api/tools/burpsuite", data)
+        logger.info(f"ðŸ” Starting Burp Suite scan")
+        result = autobots_client.safe_post("api/tools/burpsuite", data)
         if result.get("success"):
-            logger.info(f"✅ Burp Suite scan completed")
+            logger.info(f"âœ… Burp Suite scan completed")
         else:
-            logger.error(f"❌ Burp Suite scan failed")
+            logger.error(f"âŒ Burp Suite scan failed")
         return result
 
     @mcp.tool()
@@ -3524,12 +3524,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting ZAP scan: {target}")
-        result = hexstrike_client.safe_post("api/tools/zap", data)
+        logger.info(f"ðŸ” Starting ZAP scan: {target}")
+        result = autobots_client.safe_post("api/tools/zap", data)
         if result.get("success"):
-            logger.info(f"✅ ZAP scan completed for {target}")
+            logger.info(f"âœ… ZAP scan completed for {target}")
         else:
-            logger.error(f"❌ ZAP scan failed for {target}")
+            logger.error(f"âŒ ZAP scan failed for {target}")
         return result
 
     @mcp.tool()
@@ -3558,12 +3558,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "output_file": output_file,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Arjun parameter discovery: {url}")
-        result = hexstrike_client.safe_post("api/tools/arjun", data)
+        logger.info(f"ðŸ” Starting Arjun parameter discovery: {url}")
+        result = autobots_client.safe_post("api/tools/arjun", data)
         if result.get("success"):
-            logger.info(f"✅ Arjun completed for {url}")
+            logger.info(f"âœ… Arjun completed for {url}")
         else:
-            logger.error(f"❌ Arjun failed for {url}")
+            logger.error(f"âŒ Arjun failed for {url}")
         return result
 
     @mcp.tool()
@@ -3582,12 +3582,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "target": target,
             "additional_args": additional_args
         }
-        logger.info(f"🛡️ Starting Wafw00f WAF detection: {target}")
-        result = hexstrike_client.safe_post("api/tools/wafw00f", data)
+        logger.info(f"ðŸ›¡ï¸ Starting Wafw00f WAF detection: {target}")
+        result = autobots_client.safe_post("api/tools/wafw00f", data)
         if result.get("success"):
-            logger.info(f"✅ Wafw00f completed for {target}")
+            logger.info(f"âœ… Wafw00f completed for {target}")
         else:
-            logger.error(f"❌ Wafw00f failed for {target}")
+            logger.error(f"âŒ Wafw00f failed for {target}")
         return result
 
     @mcp.tool()
@@ -3608,12 +3608,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "dns_server": dns_server,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting Fierce DNS recon: {domain}")
-        result = hexstrike_client.safe_post("api/tools/fierce", data)
+        logger.info(f"ðŸ” Starting Fierce DNS recon: {domain}")
+        result = autobots_client.safe_post("api/tools/fierce", data)
         if result.get("success"):
-            logger.info(f"✅ Fierce completed for {domain}")
+            logger.info(f"âœ… Fierce completed for {domain}")
         else:
-            logger.error(f"❌ Fierce failed for {domain}")
+            logger.error(f"âŒ Fierce failed for {domain}")
         return result
 
     @mcp.tool()
@@ -3636,12 +3636,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "wordlist": wordlist,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting DNSenum: {domain}")
-        result = hexstrike_client.safe_post("api/tools/dnsenum", data)
+        logger.info(f"ðŸ” Starting DNSenum: {domain}")
+        result = autobots_client.safe_post("api/tools/dnsenum", data)
         if result.get("success"):
-            logger.info(f"✅ DNSenum completed for {domain}")
+            logger.info(f"âœ… DNSenum completed for {domain}")
         else:
-            logger.error(f"❌ DNSenum failed for {domain}")
+            logger.error(f"âŒ DNSenum failed for {domain}")
         return result
 
     @mcp.tool()
@@ -3774,12 +3774,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "global_domain": global_domain,
             "additional_args": additional_args
         }
-        logger.info(f"🔍 Starting AutoRecon comprehensive enumeration: {target}")
-        result = hexstrike_client.safe_post("api/tools/autorecon", data)
+        logger.info(f"ðŸ” Starting AutoRecon comprehensive enumeration: {target}")
+        result = autobots_client.safe_post("api/tools/autorecon", data)
         if result.get("success"):
-            logger.info(f"✅ AutoRecon comprehensive enumeration completed for {target}")
+            logger.info(f"âœ… AutoRecon comprehensive enumeration completed for {target}")
         else:
-            logger.error(f"❌ AutoRecon failed for {target}")
+            logger.error(f"âŒ AutoRecon failed for {target}")
         return result
 
     # ============================================================================
@@ -3789,61 +3789,61 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
     @mcp.tool()
     def server_health() -> Dict[str, Any]:
         """
-        Check the health status of the HexStrike AI server.
+        Check the health status of the Autobots AI server.
 
         Returns:
             Server health information with tool availability and telemetry
         """
-        logger.info(f"🏥 Checking HexStrike AI server health")
-        result = hexstrike_client.check_health()
+        logger.info(f"ðŸ¥ Checking Autobots AI server health")
+        result = autobots_client.check_health()
         if result.get("status") == "healthy":
-            logger.info(f"✅ Server is healthy - {result.get('total_tools_available', 0)} tools available")
+            logger.info(f"âœ… Server is healthy - {result.get('total_tools_available', 0)} tools available")
         else:
-            logger.warning(f"⚠️  Server health check returned: {result.get('status', 'unknown')}")
+            logger.warning(f"âš ï¸  Server health check returned: {result.get('status', 'unknown')}")
         return result
 
     @mcp.tool()
     def get_cache_stats() -> Dict[str, Any]:
         """
-        Get cache statistics from the HexStrike AI server.
+        Get cache statistics from the Autobots AI server.
 
         Returns:
             Cache performance statistics
         """
-        logger.info(f"💾 Getting cache statistics")
-        result = hexstrike_client.safe_get("api/cache/stats")
+        logger.info(f"ðŸ’¾ Getting cache statistics")
+        result = autobots_client.safe_get("api/cache/stats")
         if "hit_rate" in result:
-            logger.info(f"📊 Cache hit rate: {result.get('hit_rate', 'unknown')}")
+            logger.info(f"ðŸ“Š Cache hit rate: {result.get('hit_rate', 'unknown')}")
         return result
 
     @mcp.tool()
     def clear_cache() -> Dict[str, Any]:
         """
-        Clear the cache on the HexStrike AI server.
+        Clear the cache on the Autobots AI server.
 
         Returns:
             Cache clear operation results
         """
-        logger.info(f"🧹 Clearing server cache")
-        result = hexstrike_client.safe_post("api/cache/clear", {})
+        logger.info(f"ðŸ§¹ Clearing server cache")
+        result = autobots_client.safe_post("api/cache/clear", {})
         if result.get("success"):
-            logger.info(f"✅ Cache cleared successfully")
+            logger.info(f"âœ… Cache cleared successfully")
         else:
-            logger.error(f"❌ Failed to clear cache")
+            logger.error(f"âŒ Failed to clear cache")
         return result
 
     @mcp.tool()
     def get_telemetry() -> Dict[str, Any]:
         """
-        Get system telemetry from the HexStrike AI server.
+        Get system telemetry from the Autobots AI server.
 
         Returns:
             System performance and usage telemetry
         """
-        logger.info(f"📈 Getting system telemetry")
-        result = hexstrike_client.safe_get("api/telemetry")
+        logger.info(f"ðŸ“ˆ Getting system telemetry")
+        result = autobots_client.safe_get("api/telemetry")
         if "commands_executed" in result:
-            logger.info(f"📊 Commands executed: {result.get('commands_executed', 0)}")
+            logger.info(f"ðŸ“Š Commands executed: {result.get('commands_executed', 0)}")
         return result
 
     # ============================================================================
@@ -3853,17 +3853,17 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
     @mcp.tool()
     def list_active_processes() -> Dict[str, Any]:
         """
-        List all active processes on the HexStrike AI server.
+        List all active processes on the Autobots AI server.
 
         Returns:
             List of active processes with their status and progress
         """
-        logger.info("📊 Listing active processes")
-        result = hexstrike_client.safe_get("api/processes/list")
+        logger.info("ðŸ“Š Listing active processes")
+        result = autobots_client.safe_get("api/processes/list")
         if result.get("success"):
-            logger.info(f"✅ Found {result.get('total_count', 0)} active processes")
+            logger.info(f"âœ… Found {result.get('total_count', 0)} active processes")
         else:
-            logger.error("❌ Failed to list processes")
+            logger.error("âŒ Failed to list processes")
         return result
 
     @mcp.tool()
@@ -3877,12 +3877,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Process status information including progress and runtime
         """
-        logger.info(f"🔍 Checking status of process {pid}")
-        result = hexstrike_client.safe_get(f"api/processes/status/{pid}")
+        logger.info(f"ðŸ” Checking status of process {pid}")
+        result = autobots_client.safe_get(f"api/processes/status/{pid}")
         if result.get("success"):
-            logger.info(f"✅ Process {pid} status retrieved")
+            logger.info(f"âœ… Process {pid} status retrieved")
         else:
-            logger.error(f"❌ Process {pid} not found or error occurred")
+            logger.error(f"âŒ Process {pid} not found or error occurred")
         return result
 
     @mcp.tool()
@@ -3896,12 +3896,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Success status of the termination operation
         """
-        logger.info(f"🛑 Terminating process {pid}")
-        result = hexstrike_client.safe_post(f"api/processes/terminate/{pid}", {})
+        logger.info(f"ðŸ›‘ Terminating process {pid}")
+        result = autobots_client.safe_post(f"api/processes/terminate/{pid}", {})
         if result.get("success"):
-            logger.info(f"✅ Process {pid} terminated successfully")
+            logger.info(f"âœ… Process {pid} terminated successfully")
         else:
-            logger.error(f"❌ Failed to terminate process {pid}")
+            logger.error(f"âŒ Failed to terminate process {pid}")
         return result
 
     @mcp.tool()
@@ -3915,12 +3915,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Success status of the pause operation
         """
-        logger.info(f"⏸️ Pausing process {pid}")
-        result = hexstrike_client.safe_post(f"api/processes/pause/{pid}", {})
+        logger.info(f"â¸ï¸ Pausing process {pid}")
+        result = autobots_client.safe_post(f"api/processes/pause/{pid}", {})
         if result.get("success"):
-            logger.info(f"✅ Process {pid} paused successfully")
+            logger.info(f"âœ… Process {pid} paused successfully")
         else:
-            logger.error(f"❌ Failed to pause process {pid}")
+            logger.error(f"âŒ Failed to pause process {pid}")
         return result
 
     @mcp.tool()
@@ -3934,12 +3934,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Success status of the resume operation
         """
-        logger.info(f"▶️ Resuming process {pid}")
-        result = hexstrike_client.safe_post(f"api/processes/resume/{pid}", {})
+        logger.info(f"â–¶ï¸ Resuming process {pid}")
+        result = autobots_client.safe_post(f"api/processes/resume/{pid}", {})
         if result.get("success"):
-            logger.info(f"✅ Process {pid} resumed successfully")
+            logger.info(f"âœ… Process {pid} resumed successfully")
         else:
-            logger.error(f"❌ Failed to resume process {pid}")
+            logger.error(f"âŒ Failed to resume process {pid}")
         return result
 
     @mcp.tool()
@@ -3950,25 +3950,25 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Real-time dashboard with progress bars, system metrics, and process status
         """
-        logger.info("📊 Getting process dashboard")
-        result = hexstrike_client.safe_get("api/processes/dashboard")
+        logger.info("ðŸ“Š Getting process dashboard")
+        result = autobots_client.safe_get("api/processes/dashboard")
         if result.get("success", True) and "total_processes" in result:
             total = result.get("total_processes", 0)
-            logger.info(f"✅ Dashboard retrieved: {total} active processes")
+            logger.info(f"âœ… Dashboard retrieved: {total} active processes")
 
             # Log visual summary for better UX
             if total > 0:
-                logger.info("📈 Active Processes Summary:")
+                logger.info("ðŸ“ˆ Active Processes Summary:")
                 for proc in result.get("processes", [])[:3]:  # Show first 3
-                    logger.info(f"   ├─ PID {proc['pid']}: {proc['progress_bar']} {proc['progress_percent']}")
+                    logger.info(f"   â”œâ”€ PID {proc['pid']}: {proc['progress_bar']} {proc['progress_percent']}")
         else:
-            logger.error("❌ Failed to get process dashboard")
+            logger.error("âŒ Failed to get process dashboard")
         return result
 
     @mcp.tool()
     def execute_command(command: str, use_cache: bool = True) -> Dict[str, Any]:
         """
-        Execute an arbitrary command on the HexStrike AI server with enhanced logging.
+        Execute an arbitrary command on the Autobots AI server with enhanced logging.
 
         Args:
             command: The command to execute
@@ -3978,10 +3978,10 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             Command execution results with enhanced telemetry
         """
         try:
-            logger.info(f"⚡ Executing command: {command}")
-            result = hexstrike_client.execute_command(command, use_cache)
+            logger.info(f"âš¡ Executing command: {command}")
+            result = autobots_client.execute_command(command, use_cache)
             if "error" in result:
-                logger.error(f"❌ Command failed: {result['error']}")
+                logger.error(f"âŒ Command failed: {result['error']}")
                 return {
                     "success": False,
                     "error": result["error"],
@@ -3991,13 +3991,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
 
             if result.get("success"):
                 execution_time = result.get("execution_time", 0)
-                logger.info(f"✅ Command completed successfully in {execution_time:.2f}s")
+                logger.info(f"âœ… Command completed successfully in {execution_time:.2f}s")
             else:
-                logger.warning(f"⚠️  Command completed with errors")
+                logger.warning(f"âš ï¸  Command completed with errors")
 
             return result
         except Exception as e:
-            logger.error(f"💥 Error executing command '{command}': {str(e)}")
+            logger.error(f"ðŸ’¥ Error executing command '{command}': {str(e)}")
             return {
                 "success": False,
                 "error": str(e),
@@ -4030,13 +4030,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "severity_filter": severity_filter,
             "keywords": keywords
         }
-        logger.info(f"🔍 Monitoring CVE feeds for last {hours} hours | Severity: {severity_filter}")
-        result = hexstrike_client.safe_post("api/vuln-intel/cve-monitor", data)
+        logger.info(f"ðŸ” Monitoring CVE feeds for last {hours} hours | Severity: {severity_filter}")
+        result = autobots_client.safe_post("api/vuln-intel/cve-monitor", data)
 
         if result.get("success"):
             cve_count = len(result.get("cve_monitoring", {}).get("cves", []))
             exploit_analysis_count = len(result.get("exploitability_analysis", []))
-            logger.info(f"✅ Found {cve_count} CVEs with {exploit_analysis_count} exploitability analyses")
+            logger.info(f"âœ… Found {cve_count} CVEs with {exploit_analysis_count} exploitability analyses")
 
         return result
 
@@ -4065,8 +4065,8 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "exploit_type": exploit_type,
             "evasion_level": evasion_level
         }
-        logger.info(f"🤖 Generating {exploit_type} exploit for {cve_id} | Target: {target_os} {target_arch}")
-        result = hexstrike_client.safe_post("api/vuln-intel/exploit-generate", data)
+        logger.info(f"ðŸ¤– Generating {exploit_type} exploit for {cve_id} | Target: {target_os} {target_arch}")
+        result = autobots_client.safe_post("api/vuln-intel/exploit-generate", data)
 
         if result.get("success"):
             cve_analysis = result.get("cve_analysis", {})
@@ -4074,8 +4074,8 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             exploitability = cve_analysis.get("exploitability_level", "UNKNOWN")
             exploit_success = exploit_gen.get("success", False)
 
-            logger.info(f"📊 CVE Analysis: {exploitability} exploitability")
-            logger.info(f"🎯 Exploit Generation: {'SUCCESS' if exploit_success else 'FAILED'}")
+            logger.info(f"ðŸ“Š CVE Analysis: {exploitability} exploitability")
+            logger.info(f"ðŸŽ¯ Exploit Generation: {'SUCCESS' if exploit_success else 'FAILED'}")
 
         return result
 
@@ -4100,16 +4100,16 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "attack_depth": min(max(attack_depth, 1), 5),  # Clamp between 1-5
             "include_zero_days": include_zero_days
         }
-        logger.info(f"🔗 Discovering attack chains for {target_software} | Depth: {attack_depth} | Zero-days: {include_zero_days}")
-        result = hexstrike_client.safe_post("api/vuln-intel/attack-chains", data)
+        logger.info(f"ðŸ”— Discovering attack chains for {target_software} | Depth: {attack_depth} | Zero-days: {include_zero_days}")
+        result = autobots_client.safe_post("api/vuln-intel/attack-chains", data)
 
         if result.get("success"):
             chains = result.get("attack_chain_discovery", {}).get("attack_chains", [])
             enhanced_chains = result.get("attack_chain_discovery", {}).get("enhanced_chains", [])
 
-            logger.info(f"📊 Found {len(chains)} attack chains")
+            logger.info(f"ðŸ“Š Found {len(chains)} attack chains")
             if enhanced_chains:
-                logger.info(f"🎯 Enhanced {len(enhanced_chains)} chains with exploit analysis")
+                logger.info(f"ðŸŽ¯ Enhanced {len(enhanced_chains)} chains with exploit analysis")
 
         return result
 
@@ -4137,16 +4137,16 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "analysis_depth": analysis_depth,
             "source_code_url": source_code_url
         }
-        logger.info(f"🔬 Researching zero-day opportunities in {target_software} | Depth: {analysis_depth}")
-        result = hexstrike_client.safe_post("api/vuln-intel/zero-day-research", data)
+        logger.info(f"ðŸ”¬ Researching zero-day opportunities in {target_software} | Depth: {analysis_depth}")
+        result = autobots_client.safe_post("api/vuln-intel/zero-day-research", data)
 
         if result.get("success"):
             research = result.get("zero_day_research", {})
             potential_vulns = len(research.get("potential_vulnerabilities", []))
             risk_score = research.get("risk_assessment", {}).get("risk_score", 0)
 
-            logger.info(f"📊 Found {potential_vulns} potential vulnerability areas")
-            logger.info(f"🎯 Risk Score: {risk_score}/100")
+            logger.info(f"ðŸ“Š Found {potential_vulns} potential vulnerability areas")
+            logger.info(f"ðŸŽ¯ Risk Score: {risk_score}/100")
 
         return result
 
@@ -4175,7 +4175,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         indicator_list = [i.strip() for i in indicators.split(",") if i.strip()]
 
         if not indicator_list:
-            logger.error("❌ No valid indicators provided")
+            logger.error("âŒ No valid indicators provided")
             return {"success": False, "error": "No valid indicators provided"}
 
         data = {
@@ -4183,16 +4183,16 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "timeframe": timeframe,
             "sources": sources
         }
-        logger.info(f"🧠 Correlating threat intelligence for {len(indicator_list)} indicators | Timeframe: {timeframe}")
-        result = hexstrike_client.safe_post("api/vuln-intel/threat-feeds", data)
+        logger.info(f"ðŸ§  Correlating threat intelligence for {len(indicator_list)} indicators | Timeframe: {timeframe}")
+        result = autobots_client.safe_post("api/vuln-intel/threat-feeds", data)
 
         if result.get("success"):
             threat_intel = result.get("threat_intelligence", {})
             correlations = len(threat_intel.get("correlations", []))
             threat_score = threat_intel.get("threat_score", 0)
 
-            logger.info(f"📊 Found {correlations} threat correlations")
-            logger.info(f"🎯 Overall Threat Score: {threat_score:.1f}/100")
+            logger.info(f"ðŸ“Š Found {correlations} threat correlations")
+            logger.info(f"ðŸŽ¯ Overall Threat Score: {threat_score:.1f}/100")
 
         return result
 
@@ -4228,19 +4228,19 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "evasion_level": evasion_level,
             "custom_constraints": custom_constraints
         }
-        logger.info(f"🎯 Generating advanced {attack_type} payload | Evasion: {evasion_level}")
+        logger.info(f"ðŸŽ¯ Generating advanced {attack_type} payload | Evasion: {evasion_level}")
         if target_context:
-            logger.info(f"🎯 Target Context: {target_context}")
+            logger.info(f"ðŸŽ¯ Target Context: {target_context}")
 
-        result = hexstrike_client.safe_post("api/ai/advanced-payload-generation", data)
+        result = autobots_client.safe_post("api/ai/advanced-payload-generation", data)
 
         if result.get("success"):
             payload_gen = result.get("advanced_payload_generation", {})
             payload_count = payload_gen.get("payload_count", 0)
             evasion_applied = payload_gen.get("evasion_level", "none")
 
-            logger.info(f"📊 Generated {payload_count} advanced payloads")
-            logger.info(f"🛡️ Evasion Level Applied: {evasion_applied}")
+            logger.info(f"ðŸ“Š Generated {payload_count} advanced payloads")
+            logger.info(f"ðŸ›¡ï¸ Evasion Level Applied: {evasion_applied}")
 
         return result
 
@@ -4255,17 +4255,17 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Example:
             vulnerability_intelligence_dashboard()
         """
-        logger.info("📊 Generating vulnerability intelligence dashboard")
+        logger.info("ðŸ“Š Generating vulnerability intelligence dashboard")
 
         # Get latest critical CVEs
-        latest_cves = hexstrike_client.safe_post("api/vuln-intel/cve-monitor", {
+        latest_cves = autobots_client.safe_post("api/vuln-intel/cve-monitor", {
             "hours": 24,
             "severity_filter": "CRITICAL",
             "keywords": ""
         })
 
         # Get trending attack types
-        trending_research = hexstrike_client.safe_post("api/vuln-intel/zero-day-research", {
+        trending_research = autobots_client.safe_post("api/vuln-intel/zero-day-research", {
             "target_software": "web applications",
             "analysis_depth": "quick"
         })
@@ -4292,7 +4292,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             ]
         }
 
-        logger.info("✅ Vulnerability intelligence dashboard generated")
+        logger.info("âœ… Vulnerability intelligence dashboard generated")
         return {
             "success": True,
             "dashboard": dashboard
@@ -4318,7 +4318,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         if hunt_focus not in valid_hunt_focus:
             hunt_focus = "general"
 
-        logger.info(f"🔍 Generating threat hunting playbook for {target_environment} | Focus: {hunt_focus}")
+        logger.info(f"ðŸ” Generating threat hunting playbook for {target_environment} | Focus: {hunt_focus}")
 
         # Parse indicators if provided
         indicators = [i.strip() for i in threat_indicators.split(",") if i.strip()] if threat_indicators else []
@@ -4392,13 +4392,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
 
         # Correlate with vulnerability intelligence if indicators provided
         if indicators:
-            logger.info(f"🧠 Correlating {len(indicators)} indicators with threat intelligence")
+            logger.info(f"ðŸ§  Correlating {len(indicators)} indicators with threat intelligence")
             correlation_result = correlate_threat_intelligence(",".join(indicators), "30d", "all")
 
             if correlation_result.get("success"):
                 hunting_playbook["threat_correlation"] = correlation_result.get("threat_intelligence", {})
 
-        logger.info("✅ Threat hunting playbook generated")
+        logger.info("âœ… Threat hunting playbook generated")
         return {
             "success": True,
             "hunting_playbook": hunting_playbook
@@ -4416,12 +4416,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Live dashboard with visual process monitoring and system metrics
         """
-        logger.info("📊 Fetching live process dashboard")
-        result = hexstrike_client.safe_get("api/processes/dashboard")
+        logger.info("ðŸ“Š Fetching live process dashboard")
+        result = autobots_client.safe_get("api/processes/dashboard")
         if result.get("success", True):
-            logger.info("✅ Live dashboard retrieved successfully")
+            logger.info("âœ… Live dashboard retrieved successfully")
         else:
-            logger.error("❌ Failed to retrieve live dashboard")
+            logger.error("âŒ Failed to retrieve live dashboard")
         return result
 
     @mcp.tool()
@@ -4446,12 +4446,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             else:
                 vuln_data = vulnerabilities
 
-            logger.info(f"📋 Creating vulnerability report for {len(vuln_data)} findings")
+            logger.info(f"ðŸ“‹ Creating vulnerability report for {len(vuln_data)} findings")
 
             # Create individual vulnerability cards
             vulnerability_cards = []
             for vuln in vuln_data:
-                card_result = hexstrike_client.safe_post("api/visual/vulnerability-card", vuln)
+                card_result = autobots_client.safe_post("api/visual/vulnerability-card", vuln)
                 if card_result.get("success"):
                     vulnerability_cards.append(card_result.get("vulnerability_card", ""))
 
@@ -4463,9 +4463,9 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                 "execution_time": 0
             }
 
-            summary_result = hexstrike_client.safe_post("api/visual/summary-report", summary_data)
+            summary_result = autobots_client.safe_post("api/visual/summary-report", summary_data)
 
-            logger.info("✅ Vulnerability report created successfully")
+            logger.info("âœ… Vulnerability report created successfully")
             return {
                 "success": True,
                 "vulnerability_cards": vulnerability_cards,
@@ -4475,7 +4475,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             }
 
         except Exception as e:
-            logger.error(f"❌ Failed to create vulnerability report: {str(e)}")
+            logger.error(f"âŒ Failed to create vulnerability report: {str(e)}")
             return {"success": False, "error": str(e)}
 
     @mcp.tool()
@@ -4491,7 +4491,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Beautifully formatted tool output with visual enhancements
         """
-        logger.info(f"🎨 Formatting output for {tool_name}")
+        logger.info(f"ðŸŽ¨ Formatting output for {tool_name}")
 
         data = {
             "tool": tool_name,
@@ -4499,11 +4499,11 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "success": success
         }
 
-        result = hexstrike_client.safe_post("api/visual/tool-output", data)
+        result = autobots_client.safe_post("api/visual/tool-output", data)
         if result.get("success"):
-            logger.info(f"✅ Tool output formatted successfully for {tool_name}")
+            logger.info(f"âœ… Tool output formatted successfully for {tool_name}")
         else:
-            logger.error(f"❌ Failed to format tool output for {tool_name}")
+            logger.error(f"âŒ Failed to format tool output for {tool_name}")
 
         return result
 
@@ -4523,7 +4523,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Beautiful scan summary report with visual enhancements
         """
-        logger.info(f"📊 Creating scan summary for {target}")
+        logger.info(f"ðŸ“Š Creating scan summary for {target}")
 
         tools_list = [tool.strip() for tool in tools_used.split(",")]
 
@@ -4535,11 +4535,11 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "findings": findings
         }
 
-        result = hexstrike_client.safe_post("api/visual/summary-report", summary_data)
+        result = autobots_client.safe_post("api/visual/summary-report", summary_data)
         if result.get("success"):
-            logger.info("✅ Scan summary created successfully")
+            logger.info("âœ… Scan summary created successfully")
         else:
-            logger.error("❌ Failed to create scan summary")
+            logger.error("âŒ Failed to create scan summary")
 
         return result
 
@@ -4551,13 +4551,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             System metrics with beautiful visual presentation
         """
-        logger.info("📈 Fetching system metrics")
+        logger.info("ðŸ“ˆ Fetching system metrics")
 
         # Get telemetry data
-        telemetry_result = hexstrike_client.safe_get("api/telemetry")
+        telemetry_result = autobots_client.safe_get("api/telemetry")
 
         if telemetry_result.get("success", True):
-            logger.info("✅ System metrics retrieved successfully")
+            logger.info("âœ… System metrics retrieved successfully")
 
             # Format the metrics for better display
             metrics = telemetry_result.get("system_metrics", {})
@@ -4574,18 +4574,18 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                 "success": True,
                 "metrics": stats,
                 "formatted_display": f"""
-🖥️  System Performance Metrics:
-├─ CPU Usage: {stats['cpu_percent']:.1f}%
-├─ Memory Usage: {stats['memory_percent']:.1f}%
-├─ Disk Usage: {stats['disk_usage']:.1f}%
-├─ Uptime: {stats['uptime_seconds']:.0f}s
-├─ Commands Executed: {stats['commands_executed']}
-└─ Success Rate: {stats['success_rate']}
+ðŸ–¥ï¸  System Performance Metrics:
+â”œâ”€ CPU Usage: {stats['cpu_percent']:.1f}%
+â”œâ”€ Memory Usage: {stats['memory_percent']:.1f}%
+â”œâ”€ Disk Usage: {stats['disk_usage']:.1f}%
+â”œâ”€ Uptime: {stats['uptime_seconds']:.0f}s
+â”œâ”€ Commands Executed: {stats['commands_executed']}
+â””â”€ Success Rate: {stats['success_rate']}
 """,
                 "timestamp": telemetry_result.get("timestamp", "")
             }
         else:
-            logger.error("❌ Failed to retrieve system metrics")
+            logger.error("âŒ Failed to retrieve system metrics")
             return telemetry_result
 
     # ============================================================================
@@ -4603,16 +4603,16 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Comprehensive target profile with technology detection, risk assessment, and recommendations
         """
-        logger.info(f"🧠 Analyzing target intelligence for: {target}")
+        logger.info(f"ðŸ§  Analyzing target intelligence for: {target}")
 
         data = {"target": target}
-        result = hexstrike_client.safe_post("api/intelligence/analyze-target", data)
+        result = autobots_client.safe_post("api/intelligence/analyze-target", data)
 
         if result.get("success"):
             profile = result.get("target_profile", {})
-            logger.info(f"✅ Target analysis completed - Type: {profile.get('target_type')}, Risk: {profile.get('risk_level')}")
+            logger.info(f"âœ… Target analysis completed - Type: {profile.get('target_type')}, Risk: {profile.get('risk_level')}")
         else:
-            logger.error(f"❌ Target analysis failed for {target}")
+            logger.error(f"âŒ Target analysis failed for {target}")
 
         return result
 
@@ -4628,19 +4628,19 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             AI-selected optimal tools with effectiveness ratings and target profile
         """
-        logger.info(f"🎯 Selecting optimal tools for {target} with objective: {objective}")
+        logger.info(f"ðŸŽ¯ Selecting optimal tools for {target} with objective: {objective}")
 
         data = {
             "target": target,
             "objective": objective
         }
-        result = hexstrike_client.safe_post("api/intelligence/select-tools", data)
+        result = autobots_client.safe_post("api/intelligence/select-tools", data)
 
         if result.get("success"):
             tools = result.get("selected_tools", [])
-            logger.info(f"✅ AI selected {len(tools)} optimal tools: {', '.join(tools[:3])}{'...' if len(tools) > 3 else ''}")
+            logger.info(f"âœ… AI selected {len(tools)} optimal tools: {', '.join(tools[:3])}{'...' if len(tools) > 3 else ''}")
         else:
-            logger.error(f"❌ Tool selection failed for {target}")
+            logger.error(f"âŒ Tool selection failed for {target}")
 
         return result
 
@@ -4659,7 +4659,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         """
         import json
 
-        logger.info(f"⚙️  Optimizing parameters for {tool} against {target}")
+        logger.info(f"âš™ï¸  Optimizing parameters for {tool} against {target}")
 
         try:
             context_dict = json.loads(context) if context != "{}" else {}
@@ -4671,13 +4671,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "tool": tool,
             "context": context_dict
         }
-        result = hexstrike_client.safe_post("api/intelligence/optimize-parameters", data)
+        result = autobots_client.safe_post("api/intelligence/optimize-parameters", data)
 
         if result.get("success"):
             params = result.get("optimized_parameters", {})
-            logger.info(f"✅ Parameters optimized for {tool} - {len(params)} parameters configured")
+            logger.info(f"âœ… Parameters optimized for {tool} - {len(params)} parameters configured")
         else:
-            logger.error(f"❌ Parameter optimization failed for {tool}")
+            logger.error(f"âŒ Parameter optimization failed for {tool}")
 
         return result
 
@@ -4693,13 +4693,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             AI-generated attack chain with success probability and time estimates
         """
-        logger.info(f"⚔️  Creating AI-driven attack chain for {target}")
+        logger.info(f"âš”ï¸  Creating AI-driven attack chain for {target}")
 
         data = {
             "target": target,
             "objective": objective
         }
-        result = hexstrike_client.safe_post("api/intelligence/create-attack-chain", data)
+        result = autobots_client.safe_post("api/intelligence/create-attack-chain", data)
 
         if result.get("success"):
             chain = result.get("attack_chain", {})
@@ -4707,9 +4707,9 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             success_prob = chain.get("success_probability", 0)
             estimated_time = chain.get("estimated_time", 0)
 
-            logger.info(f"✅ Attack chain created - {steps} steps, {success_prob:.2f} success probability, ~{estimated_time}s")
+            logger.info(f"âœ… Attack chain created - {steps} steps, {success_prob:.2f} success probability, ~{estimated_time}s")
         else:
-            logger.error(f"❌ Attack chain creation failed for {target}")
+            logger.error(f"âŒ Attack chain creation failed for {target}")
 
         return result
 
@@ -4726,14 +4726,14 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Results from AI-optimized scanning with tool execution summary
         """
-        logger.info(f"{HexStrikeColors.FIRE_RED}🚀 Starting intelligent smart scan for {target}{HexStrikeColors.RESET}")
+        logger.info(f"{HexStrikeColors.FIRE_RED}ðŸš€ Starting intelligent smart scan for {target}{HexStrikeColors.RESET}")
 
         data = {
             "target": target,
             "objective": objective,
             "max_tools": max_tools
         }
-        result = hexstrike_client.safe_post("api/intelligence/smart-scan", data)
+        result = autobots_client.safe_post("api/intelligence/smart-scan", data)
 
         if result.get("success"):
             scan_results = result.get("scan_results", {})
@@ -4741,12 +4741,12 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             execution_summary = scan_results.get("execution_summary", {})
 
             # Enhanced logging with detailed results
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ Intelligent scan completed for {target}{HexStrikeColors.RESET}")
-            logger.info(f"{HexStrikeColors.CYBER_ORANGE}📊 Execution Summary:{HexStrikeColors.RESET}")
-            logger.info(f"   • Tools executed: {execution_summary.get('successful_tools', 0)}/{execution_summary.get('total_tools', 0)}")
-            logger.info(f"   • Success rate: {execution_summary.get('success_rate', 0):.1f}%")
-            logger.info(f"   • Total vulnerabilities: {scan_results.get('total_vulnerabilities', 0)}")
-            logger.info(f"   • Execution time: {execution_summary.get('total_execution_time', 0):.2f}s")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… Intelligent scan completed for {target}{HexStrikeColors.RESET}")
+            logger.info(f"{HexStrikeColors.CYBER_ORANGE}ðŸ“Š Execution Summary:{HexStrikeColors.RESET}")
+            logger.info(f"   â€¢ Tools executed: {execution_summary.get('successful_tools', 0)}/{execution_summary.get('total_tools', 0)}")
+            logger.info(f"   â€¢ Success rate: {execution_summary.get('success_rate', 0):.1f}%")
+            logger.info(f"   â€¢ Total vulnerabilities: {scan_results.get('total_vulnerabilities', 0)}")
+            logger.info(f"   â€¢ Execution time: {execution_summary.get('total_execution_time', 0):.2f}s")
 
             # Log successful tools
             successful_tools = [t['tool'] for t in tools_executed if t.get('success')]
@@ -4760,9 +4760,9 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
 
             # Log vulnerabilities found
             if scan_results.get('total_vulnerabilities', 0) > 0:
-                logger.warning(f"{HexStrikeColors.VULN_HIGH}🚨 {scan_results['total_vulnerabilities']} vulnerabilities detected!{HexStrikeColors.RESET}")
+                logger.warning(f"{HexStrikeColors.VULN_HIGH}ðŸš¨ {scan_results['total_vulnerabilities']} vulnerabilities detected!{HexStrikeColors.RESET}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ Intelligent scan failed for {target}: {result.get('error', 'Unknown error')}{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ Intelligent scan failed for {target}: {result.get('error', 'Unknown error')}{HexStrikeColors.RESET}")
 
         return result
 
@@ -4777,10 +4777,10 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Detected technologies with AI-generated testing recommendations
         """
-        logger.info(f"🔍 Detecting technologies for {target}")
+        logger.info(f"ðŸ” Detecting technologies for {target}")
 
         data = {"target": target}
-        result = hexstrike_client.safe_post("api/intelligence/technology-detection", data)
+        result = autobots_client.safe_post("api/intelligence/technology-detection", data)
 
         if result.get("success"):
             technologies = result.get("detected_technologies", [])
@@ -4791,10 +4791,10 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             if cms:
                 tech_info += f", CMS: {cms}"
 
-            logger.info(f"✅ Technology detection completed - {tech_info}")
-            logger.info(f"📋 Generated {len(recommendations)} technology-specific recommendations")
+            logger.info(f"âœ… Technology detection completed - {tech_info}")
+            logger.info(f"ðŸ“‹ Generated {len(recommendations)} technology-specific recommendations")
         else:
-            logger.error(f"❌ Technology detection failed for {target}")
+            logger.error(f"âŒ Technology detection failed for {target}")
 
         return result
 
@@ -4810,17 +4810,17 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Comprehensive reconnaissance results with AI-driven insights
         """
-        logger.info(f"🕵️  Starting AI reconnaissance workflow for {target} (depth: {depth})")
+        logger.info(f"ðŸ•µï¸  Starting AI reconnaissance workflow for {target} (depth: {depth})")
 
         # First analyze the target
-        analysis_result = hexstrike_client.safe_post("api/intelligence/analyze-target", {"target": target})
+        analysis_result = autobots_client.safe_post("api/intelligence/analyze-target", {"target": target})
 
         if not analysis_result.get("success"):
             return analysis_result
 
         # Create attack chain for reconnaissance
         objective = "comprehensive" if depth == "deep" else "quick" if depth == "surface" else "comprehensive"
-        chain_result = hexstrike_client.safe_post("api/intelligence/create-attack-chain", {
+        chain_result = autobots_client.safe_post("api/intelligence/create-attack-chain", {
             "target": target,
             "objective": objective
         })
@@ -4829,13 +4829,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             return chain_result
 
         # Execute the reconnaissance
-        scan_result = hexstrike_client.safe_post("api/intelligence/smart-scan", {
+        scan_result = autobots_client.safe_post("api/intelligence/smart-scan", {
             "target": target,
             "objective": objective,
             "max_tools": 8 if depth == "deep" else 3 if depth == "surface" else 5
         })
 
-        logger.info(f"✅ AI reconnaissance workflow completed for {target}")
+        logger.info(f"âœ… AI reconnaissance workflow completed for {target}")
 
         return {
             "success": True,
@@ -4859,10 +4859,10 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Prioritized vulnerability assessment results with AI insights
         """
-        logger.info(f"🔬 Starting AI vulnerability assessment for {target}")
+        logger.info(f"ðŸ”¬ Starting AI vulnerability assessment for {target}")
 
         # Analyze target first
-        analysis_result = hexstrike_client.safe_post("api/intelligence/analyze-target", {"target": target})
+        analysis_result = autobots_client.safe_post("api/intelligence/analyze-target", {"target": target})
 
         if not analysis_result.get("success"):
             return analysis_result
@@ -4881,13 +4881,13 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             objective = "quick"
 
         # Execute vulnerability assessment
-        scan_result = hexstrike_client.safe_post("api/intelligence/smart-scan", {
+        scan_result = autobots_client.safe_post("api/intelligence/smart-scan", {
             "target": target,
             "objective": objective,
             "max_tools": 6
         })
 
-        logger.info(f"✅ AI vulnerability assessment completed for {target}")
+        logger.info(f"âœ… AI vulnerability assessment completed for {target}")
 
         return {
             "success": True,
@@ -4929,14 +4929,14 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "program_type": program_type
         }
 
-        logger.info(f"🎯 Creating reconnaissance workflow for {domain}")
-        result = hexstrike_client.safe_post("api/bugbounty/reconnaissance-workflow", data)
+        logger.info(f"ðŸŽ¯ Creating reconnaissance workflow for {domain}")
+        result = autobots_client.safe_post("api/bugbounty/reconnaissance-workflow", data)
 
         if result.get("success"):
             workflow = result.get("workflow", {})
-            logger.info(f"✅ Reconnaissance workflow created - {workflow.get('tools_count', 0)} tools, ~{workflow.get('estimated_time', 0)}s")
+            logger.info(f"âœ… Reconnaissance workflow created - {workflow.get('tools_count', 0)} tools, ~{workflow.get('estimated_time', 0)}s")
         else:
-            logger.error(f"❌ Failed to create reconnaissance workflow for {domain}")
+            logger.error(f"âŒ Failed to create reconnaissance workflow for {domain}")
 
         return result
 
@@ -4960,14 +4960,14 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "bounty_range": bounty_range
         }
 
-        logger.info(f"🎯 Creating vulnerability hunting workflow for {domain}")
-        result = hexstrike_client.safe_post("api/bugbounty/vulnerability-hunting-workflow", data)
+        logger.info(f"ðŸŽ¯ Creating vulnerability hunting workflow for {domain}")
+        result = autobots_client.safe_post("api/bugbounty/vulnerability-hunting-workflow", data)
 
         if result.get("success"):
             workflow = result.get("workflow", {})
-            logger.info(f"✅ Vulnerability hunting workflow created - Priority score: {workflow.get('priority_score', 0)}")
+            logger.info(f"âœ… Vulnerability hunting workflow created - Priority score: {workflow.get('priority_score', 0)}")
         else:
-            logger.error(f"❌ Failed to create vulnerability hunting workflow for {domain}")
+            logger.error(f"âŒ Failed to create vulnerability hunting workflow for {domain}")
 
         return result
 
@@ -4988,15 +4988,15 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "program_type": program_type
         }
 
-        logger.info(f"🎯 Creating business logic testing workflow for {domain}")
-        result = hexstrike_client.safe_post("api/bugbounty/business-logic-workflow", data)
+        logger.info(f"ðŸŽ¯ Creating business logic testing workflow for {domain}")
+        result = autobots_client.safe_post("api/bugbounty/business-logic-workflow", data)
 
         if result.get("success"):
             workflow = result.get("workflow", {})
             test_count = sum(len(category["tests"]) for category in workflow.get("business_logic_tests", []))
-            logger.info(f"✅ Business logic testing workflow created - {test_count} tests")
+            logger.info(f"âœ… Business logic testing workflow created - {test_count} tests")
         else:
-            logger.error(f"❌ Failed to create business logic testing workflow for {domain}")
+            logger.error(f"âŒ Failed to create business logic testing workflow for {domain}")
 
         return result
 
@@ -5013,15 +5013,15 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         """
         data = {"domain": domain}
 
-        logger.info(f"🎯 Creating OSINT gathering workflow for {domain}")
-        result = hexstrike_client.safe_post("api/bugbounty/osint-workflow", data)
+        logger.info(f"ðŸŽ¯ Creating OSINT gathering workflow for {domain}")
+        result = autobots_client.safe_post("api/bugbounty/osint-workflow", data)
 
         if result.get("success"):
             workflow = result.get("workflow", {})
             phases = len(workflow.get("osint_phases", []))
-            logger.info(f"✅ OSINT workflow created - {phases} intelligence phases")
+            logger.info(f"âœ… OSINT workflow created - {phases} intelligence phases")
         else:
-            logger.error(f"❌ Failed to create OSINT workflow for {domain}")
+            logger.error(f"âŒ Failed to create OSINT workflow for {domain}")
 
         return result
 
@@ -5038,15 +5038,15 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         """
         data = {"target_url": target_url}
 
-        logger.info(f"🎯 Creating file upload testing workflow for {target_url}")
-        result = hexstrike_client.safe_post("api/bugbounty/file-upload-testing", data)
+        logger.info(f"ðŸŽ¯ Creating file upload testing workflow for {target_url}")
+        result = autobots_client.safe_post("api/bugbounty/file-upload-testing", data)
 
         if result.get("success"):
             workflow = result.get("workflow", {})
             phases = len(workflow.get("test_phases", []))
-            logger.info(f"✅ File upload testing workflow created - {phases} test phases")
+            logger.info(f"âœ… File upload testing workflow created - {phases} test phases")
         else:
-            logger.error(f"❌ Failed to create file upload testing workflow for {target_url}")
+            logger.error(f"âŒ Failed to create file upload testing workflow for {target_url}")
 
         return result
 
@@ -5076,15 +5076,15 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "include_business_logic": include_business_logic
         }
 
-        logger.info(f"🎯 Creating comprehensive bug bounty assessment for {domain}")
-        result = hexstrike_client.safe_post("api/bugbounty/comprehensive-assessment", data)
+        logger.info(f"ðŸŽ¯ Creating comprehensive bug bounty assessment for {domain}")
+        result = autobots_client.safe_post("api/bugbounty/comprehensive-assessment", data)
 
         if result.get("success"):
             assessment = result.get("assessment", {})
             summary = assessment.get("summary", {})
-            logger.info(f"✅ Comprehensive assessment created - {summary.get('workflow_count', 0)} workflows, ~{summary.get('total_estimated_time', 0)}s")
+            logger.info(f"âœ… Comprehensive assessment created - {summary.get('workflow_count', 0)} workflows, ~{summary.get('total_estimated_time', 0)}s")
         else:
-            logger.error(f"❌ Failed to create comprehensive assessment for {domain}")
+            logger.error(f"âŒ Failed to create comprehensive assessment for {domain}")
 
         return result
 
@@ -5141,7 +5141,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "manual_testing_required": True
         }
 
-        logger.info(f"🎯 Created authentication bypass testing workflow for {target_url}")
+        logger.info(f"ðŸŽ¯ Created authentication bypass testing workflow for {target_url}")
 
         return {
             "success": True,
@@ -5179,18 +5179,18 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "action": action
         }
 
-        logger.info(f"{HexStrikeColors.FIRE_RED}🔥 Starting HTTP Framework {action}: {url}{HexStrikeColors.RESET}")
-        result = hexstrike_client.safe_post("api/tools/http-framework", data_payload)
+        logger.info(f"{HexStrikeColors.FIRE_RED}ðŸ”¥ Starting HTTP Framework {action}: {url}{HexStrikeColors.RESET}")
+        result = autobots_client.safe_post("api/tools/http-framework", data_payload)
 
         if result.get("success"):
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ HTTP Framework {action} completed for {url}{HexStrikeColors.RESET}")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… HTTP Framework {action} completed for {url}{HexStrikeColors.RESET}")
 
             # Enhanced logging for vulnerabilities found
             if result.get("result", {}).get("vulnerabilities"):
                 vuln_count = len(result["result"]["vulnerabilities"])
                 logger.info(f"{HexStrikeColors.HIGHLIGHT_RED} Found {vuln_count} potential vulnerabilities {HexStrikeColors.RESET}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ HTTP Framework {action} failed for {url}{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ HTTP Framework {action} failed for {url}{HexStrikeColors.RESET}")
 
         return result
 
@@ -5220,11 +5220,11 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "active_tests": active_tests
         }
 
-        logger.info(f"{HexStrikeColors.CRIMSON}🌐 Starting Browser Agent {action}: {url}{HexStrikeColors.RESET}")
-        result = hexstrike_client.safe_post("api/tools/browser-agent", data_payload)
+        logger.info(f"{HexStrikeColors.CRIMSON}ðŸŒ Starting Browser Agent {action}: {url}{HexStrikeColors.RESET}")
+        result = autobots_client.safe_post("api/tools/browser-agent", data_payload)
 
         if result.get("success"):
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ Browser Agent {action} completed for {url}{HexStrikeColors.RESET}")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… Browser Agent {action} completed for {url}{HexStrikeColors.RESET}")
 
             # Enhanced logging for security analysis
             if action == "navigate" and result.get("result", {}).get("security_analysis"):
@@ -5237,7 +5237,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                 else:
                     logger.info(f"{HexStrikeColors.HIGHLIGHT_GREEN} No security issues found | Score: {security_score}/100 {HexStrikeColors.RESET}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ Browser Agent {action} failed for {url}{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ Browser Agent {action} failed for {url}{HexStrikeColors.RESET}")
 
         return result
 
@@ -5247,19 +5247,19 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         """Set match/replace rules used to rewrite parts of URL/query/headers/body before sending.
         Rule format: {'where':'url|query|headers|body','pattern':'regex','replacement':'string'}"""
         payload = {"action": "set_rules", "rules": rules}
-        return hexstrike_client.safe_post("api/tools/http-framework", payload)
+        return autobots_client.safe_post("api/tools/http-framework", payload)
 
     @mcp.tool()
     def http_set_scope(host: str, include_subdomains: bool = True) -> Dict[str, Any]:
         """Define in-scope host (and optionally subdomains) so out-of-scope requests are skipped."""
         payload = {"action": "set_scope", "host": host, "include_subdomains": include_subdomains}
-        return hexstrike_client.safe_post("api/tools/http-framework", payload)
+        return autobots_client.safe_post("api/tools/http-framework", payload)
 
     @mcp.tool()
     def http_repeater(request_spec: dict) -> Dict[str, Any]:
         """Send a crafted request (Burp Repeater equivalent). request_spec keys: url, method, headers, cookies, data."""
         payload = {"action": "repeater", "request": request_spec}
-        return hexstrike_client.safe_post("api/tools/http-framework", payload)
+        return autobots_client.safe_post("api/tools/http-framework", payload)
 
     @mcp.tool()
     def http_intruder(url: str, method: str = "GET", location: str = "query", params: list = None,
@@ -5276,7 +5276,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "base_data": base_data or {},
             "max_requests": max_requests
         }
-        return hexstrike_client.safe_post("api/tools/http-framework", payload)
+        return autobots_client.safe_post("api/tools/http-framework", payload)
 
     @mcp.tool()
     def burpsuite_alternative_scan(target: str, scan_type: str = "comprehensive",
@@ -5303,11 +5303,11 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "max_pages": max_pages
         }
 
-        logger.info(f"{HexStrikeColors.BLOOD_RED}🔥 Starting Burp Suite Alternative {scan_type} scan: {target}{HexStrikeColors.RESET}")
-        result = hexstrike_client.safe_post("api/tools/burpsuite-alternative", data_payload)
+        logger.info(f"{HexStrikeColors.BLOOD_RED}ðŸ”¥ Starting Burp Suite Alternative {scan_type} scan: {target}{HexStrikeColors.RESET}")
+        result = autobots_client.safe_post("api/tools/burpsuite-alternative", data_payload)
 
         if result.get("success"):
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ Burp Suite Alternative scan completed for {target}{HexStrikeColors.RESET}")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… Burp Suite Alternative scan completed for {target}{HexStrikeColors.RESET}")
 
             # Enhanced logging for comprehensive results
             if result.get("result", {}).get("summary"):
@@ -5317,9 +5317,9 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                 security_score = summary.get("security_score", 0)
 
                 logger.info(f"{HexStrikeColors.HIGHLIGHT_BLUE} SCAN SUMMARY {HexStrikeColors.RESET}")
-                logger.info(f"  📊 Pages Analyzed: {pages_analyzed}")
-                logger.info(f"  🚨 Vulnerabilities: {total_vulns}")
-                logger.info(f"  🛡️  Security Score: {security_score}/100")
+                logger.info(f"  ðŸ“Š Pages Analyzed: {pages_analyzed}")
+                logger.info(f"  ðŸš¨ Vulnerabilities: {total_vulns}")
+                logger.info(f"  ðŸ›¡ï¸  Security Score: {security_score}/100")
 
                 # Log vulnerability breakdown
                 vuln_breakdown = summary.get("vulnerability_breakdown", {})
@@ -5335,7 +5335,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
 
                         logger.info(f"  {color}{severity.upper()}: {count}{HexStrikeColors.RESET}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ Burp Suite Alternative scan failed for {target}{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ Burp Suite Alternative scan failed for {target}{HexStrikeColors.RESET}")
 
         return result
 
@@ -5347,17 +5347,17 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
         Returns:
             Error handling statistics and patterns
         """
-        logger.info(f"{HexStrikeColors.ELECTRIC_PURPLE}📊 Retrieving error handling statistics{HexStrikeColors.RESET}")
-        result = hexstrike_client.safe_get("api/error-handling/statistics")
+        logger.info(f"{HexStrikeColors.ELECTRIC_PURPLE}ðŸ“Š Retrieving error handling statistics{HexStrikeColors.RESET}")
+        result = autobots_client.safe_get("api/error-handling/statistics")
 
         if result.get("success"):
             stats = result.get("statistics", {})
             total_errors = stats.get("total_errors", 0)
             recent_errors = stats.get("recent_errors_count", 0)
 
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ Error statistics retrieved{HexStrikeColors.RESET}")
-            logger.info(f"  📈 Total Errors: {total_errors}")
-            logger.info(f"  🕒 Recent Errors: {recent_errors}")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… Error statistics retrieved{HexStrikeColors.RESET}")
+            logger.info(f"  ðŸ“ˆ Total Errors: {total_errors}")
+            logger.info(f"  ðŸ•’ Recent Errors: {recent_errors}")
 
             # Log error breakdown by type
             error_counts = stats.get("error_counts_by_type", {})
@@ -5366,7 +5366,7 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
                 for error_type, count in error_counts.items():
                                           logger.info(f"  {HexStrikeColors.FIRE_RED}{error_type}: {count}{HexStrikeColors.RESET}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ Failed to retrieve error statistics{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ Failed to retrieve error statistics{HexStrikeColors.RESET}")
 
         return result
 
@@ -5390,24 +5390,24 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
             "target": target
         }
 
-        logger.info(f"{HexStrikeColors.RUBY}🧪 Testing error recovery for {tool_name} with {error_type}{HexStrikeColors.RESET}")
-        result = hexstrike_client.safe_post("api/error-handling/test-recovery", data_payload)
+        logger.info(f"{HexStrikeColors.RUBY}ðŸ§ª Testing error recovery for {tool_name} with {error_type}{HexStrikeColors.RESET}")
+        result = autobots_client.safe_post("api/error-handling/test-recovery", data_payload)
 
         if result.get("success"):
             recovery_strategy = result.get("recovery_strategy", {})
             action = recovery_strategy.get("action", "unknown")
             success_prob = recovery_strategy.get("success_probability", 0)
 
-            logger.info(f"{HexStrikeColors.SUCCESS}✅ Error recovery test completed{HexStrikeColors.RESET}")
-            logger.info(f"  🔧 Recovery Action: {action}")
-            logger.info(f"  📊 Success Probability: {success_prob:.2%}")
+            logger.info(f"{HexStrikeColors.SUCCESS}âœ… Error recovery test completed{HexStrikeColors.RESET}")
+            logger.info(f"  ðŸ”§ Recovery Action: {action}")
+            logger.info(f"  ðŸ“Š Success Probability: {success_prob:.2%}")
 
             # Log alternative tools if available
             alternatives = result.get("alternative_tools", [])
             if alternatives:
-                logger.info(f"  🔄 Alternative Tools: {', '.join(alternatives)}")
+                logger.info(f"  ðŸ”„ Alternative Tools: {', '.join(alternatives)}")
         else:
-            logger.error(f"{HexStrikeColors.ERROR}❌ Error recovery test failed{HexStrikeColors.RESET}")
+            logger.error(f"{HexStrikeColors.ERROR}âŒ Error recovery test failed{HexStrikeColors.RESET}")
 
         return result
 
@@ -5415,9 +5415,9 @@ def setup_mcp_server(hexstrike_client: HexStrikeClient) -> FastMCP:
 
 def parse_args():
     """Parse command line arguments."""
-    parser = argparse.ArgumentParser(description="Run the HexStrike AI MCP Client")
+    parser = argparse.ArgumentParser(description="Run the Autobots AI MCP Client")
     parser.add_argument("--server", type=str, default=DEFAULT_HEXSTRIKE_SERVER,
-                      help=f"HexStrike AI API server URL (default: {DEFAULT_HEXSTRIKE_SERVER})")
+                      help=f"Autobots AI API server URL (default: {DEFAULT_HEXSTRIKE_SERVER})")
     parser.add_argument("--timeout", type=int, default=DEFAULT_REQUEST_TIMEOUT,
                       help=f"Request timeout in seconds (default: {DEFAULT_REQUEST_TIMEOUT})")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
@@ -5430,41 +5430,43 @@ def main():
     # Configure logging based on debug flag
     if args.debug:
         logger.setLevel(logging.DEBUG)
-        logger.debug("🔍 Debug logging enabled")
+        logger.debug("ðŸ” Debug logging enabled")
 
     # MCP compatibility: No banner output to avoid JSON parsing issues
-    logger.info(f"🚀 Starting HexStrike AI MCP Client v6.0")
-    logger.info(f"🔗 Connecting to: {args.server}")
+    logger.info(f"ðŸš€ Starting Autobots AI MCP Client v6.0")
+    logger.info(f"ðŸ”— Connecting to: {args.server}")
 
     try:
-        # Initialize the HexStrike AI client
-        hexstrike_client = HexStrikeClient(args.server, args.timeout)
+        # Initialize the Autobots AI client
+        autobots_client = HexStrikeClient(args.server, args.timeout)
 
         # Check server health and log the result
-        health = hexstrike_client.check_health()
+        health = autobots_client.check_health()
         if "error" in health:
-            logger.warning(f"⚠️  Unable to connect to HexStrike AI API server at {args.server}: {health['error']}")
-            logger.warning("🚀 MCP server will start, but tool execution may fail")
+            logger.warning(f"âš ï¸  Unable to connect to Autobots AI API server at {args.server}: {health['error']}")
+            logger.warning("ðŸš€ MCP server will start, but tool execution may fail")
         else:
-            logger.info(f"🎯 Successfully connected to HexStrike AI API server at {args.server}")
-            logger.info(f"🏥 Server health status: {health['status']}")
-            logger.info(f"📊 Version: {health.get('version', 'unknown')}")
+            logger.info(f"ðŸŽ¯ Successfully connected to Autobots AI API server at {args.server}")
+            logger.info(f"ðŸ¥ Server health status: {health['status']}")
+            logger.info(f"ðŸ“Š Version: {health.get('version', 'unknown')}")
             if not health.get("all_essential_tools_available", False):
-                logger.warning("⚠️  Not all essential tools are available on the HexStrike server")
+                logger.warning("âš ï¸  Not all essential tools are available on the Autobots server")
                 missing_tools = [tool for tool, available in health.get("tools_status", {}).items() if not available]
                 if missing_tools:
-                    logger.warning(f"❌ Missing tools: {', '.join(missing_tools[:5])}{'...' if len(missing_tools) > 5 else ''}")
+                    logger.warning(f"âŒ Missing tools: {', '.join(missing_tools[:5])}{'...' if len(missing_tools) > 5 else ''}")
 
         # Set up and run the MCP server
-        mcp = setup_mcp_server(hexstrike_client)
-        logger.info("🚀 Starting HexStrike AI MCP server")
-        logger.info("🤖 Ready to serve AI agents with enhanced cybersecurity capabilities")
+        mcp = setup_mcp_server(autobots_client)
+        logger.info("ðŸš€ Starting Autobots AI MCP server")
+        logger.info("ðŸ¤– Ready to serve AI agents with enhanced cybersecurity capabilities")
         mcp.run()
     except Exception as e:
-        logger.error(f"💥 Error starting MCP server: {str(e)}")
+        logger.error(f"ðŸ’¥ Error starting MCP server: {str(e)}")
         import traceback
         logger.error(traceback.format_exc())
         sys.exit(1)
 
 if __name__ == "__main__":
     main()
+
+

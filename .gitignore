@@ -1,0 +1,78 @@
+### OS / Editor ###
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+.DS_Store
+*.orig
+
+### Python ###
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+develop-eggs/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+.venv/
+venv/
+env/
+env.bak/
+.env/
+
+### Project virtual environment ###
+autobots-env/
+
+### Tools / IDEs ###
+.vscode/
+.idea/
+.vs/
+*.code-workspace
+
+### Jupyter / notebooks ###
+.ipynb_checkpoints
+
+### Misc ###
+*.bak
+*.old
+*.out
+*.cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Ignore all Markdown files
+*.md
+
+# But keep README
+!README.md
+!README.MD
+

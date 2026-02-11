@@ -1,0 +1,46 @@
+===========================================
+SOLUTION DEVELOPMENT USING MODERN IT TOOLS/TECHNIQUES
+Autobots AI - Cybersecurity Automation Framework
+===========================================
+
+RECOMMENDED SLIDE CONTENT (Matches Original Format):
+
+• AI: Claude, GPT, Cursor (MCP Protocol)
+• Code: Python 3.8+
+• Backend: Flask
+• Framework: FastMCP
+• Automation: Selenium, BeautifulSoup4
+• Security Tools: 150+ Tools (nmap, nuclei, sqlmap, etc.)
+• Version Control: Git, GitHub
+
+===========================================
+DETAILED VERSION (If More Space Available):
+===========================================
+
+• AI Integration: Claude, GPT, Cursor (via MCP Protocol)
+• Programming Language: Python 3.8+
+• Backend Framework: Flask (REST API Server)
+• MCP Framework: FastMCP (Model Context Protocol)
+• Web Automation: Selenium, BeautifulSoup4
+• Process Management: psutil
+• Async Operations: aiohttp, asyncio
+• Binary Analysis: pwntools, angr
+• Proxy Integration: mitmproxy
+• Security Tools: 150+ Tools (nmap, nuclei, sqlmap, ghidra, etc.)
+• Version Control: Git, GitHub
+
+===========================================
+VISUAL ELEMENTS TO ADD:
+===========================================
+
+Logos/Icons:
+- Python logo
+- Flask logo
+- GitHub Octocat
+- Security/Shield icon
+- Network/Connection diagram (for MCP)
+- Tool icons (representing security tools)
+
+Color Scheme:
+- Red/Black/White (matching Autobots theme)
+- Cybersecurity-themed graphics
